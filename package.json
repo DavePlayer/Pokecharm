@@ -1,0 +1,38 @@
+{
+  "name": "pokecharm",
+  "version": "0.0.1",
+  "description": "React web application which helps organising catched pokemons from popular pokemon games",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "server": "nodemon --exec ts-node src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavePlayer/Pokecharm.git"
+  },
+  "keywords": [
+    "Pokecharm",
+    "caught",
+    "pokemons",
+    "shiny",
+    "helper"
+  ],
+  "author": "Dave Player",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavePlayer/Pokecharm/issues"
+  },
+  "homepage": "https://github.com/DavePlayer/Pokecharm#readme",
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "@types/mysql": "^2.15.13",
+    "@types/node": "^14.0.13",
+    "concurrently": "^5.2.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
