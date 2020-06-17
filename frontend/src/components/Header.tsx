@@ -1,8 +1,17 @@
 import * as React from 'react'
 import { Logo } from './logo'
 
-export const Header:React.FC = (props) => {
+interface Iprops {
+    isLoadedApp?: boolean
+}
+
+export const Header:React.FC<Iprops> = (props) => {
     return (
-        <Logo />
+        <header className="mainHeader">
+            <section className="logoHolder">
+                <Logo />
+                <h1>Omega Applications</h1>
+            </section>
+        </header>
     )
 }
