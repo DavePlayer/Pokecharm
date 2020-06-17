@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import { Header } from './Header'
 
 
 export class App extends React.Component {
@@ -26,7 +27,7 @@ interface IPropHolder {
 
 const WelcomeWrapper:React.FC = (props:IPropHolder) => (
     <>
-        <h1>header</h1>
+        <Header />
         {
             (props.children && props.children)
         
