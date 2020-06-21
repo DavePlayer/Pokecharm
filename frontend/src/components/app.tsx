@@ -2,6 +2,7 @@ import * as React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import { Header } from './Header'
 import { VisitHomePage } from './visitHomePage'
+import { Glow } from './Glow'
 
 
 export class App extends React.Component {
@@ -33,6 +34,6 @@ const WelcomeWrapper:React.FC = (props:IPropHolder) => (
         {
             (props.children && props.children)
         }
-        <h1>footer</h1>
+        <Glow />
     </>
 )
