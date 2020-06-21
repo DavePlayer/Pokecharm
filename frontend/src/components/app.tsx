@@ -1,26 +1,24 @@
 import * as React from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {Route, Switch, useLocation} from 'react-router-dom'
 import { Header } from './Header'
 import { VisitHomePage } from './visitHomePage'
 import { Glow } from './Glow'
+import { AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { Login } from './login'
 
 
-export class App extends React.Component {
-    constructor(props:any){
-        super(props)
-    }
-    
-    render(){
-        return(
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path='/' render={() => <WelcomeWrapper children={<VisitHomePage />} />} />
-                    <Route exact path='/login' render={() => <h1>login</h1>} />
-                    <Route exact path='/register' render={() => <h1>register</h1>} />
-                </Switch>
-            </BrowserRouter>
-        )
-    }
+export const App = () => {
+    const location = useLocation()
+    return(
+        <AnimatePresence>
+            <Switch location={location} key={location.key}>
+                <Route exact path='/' render={() => <WelcomeWrapper children={<VisitHomePage />} />} />
+                <Route exact path='/login' render={() => <WelcomeWrapper children={<Login />}/>} />
+                <Route exact path='/register' render={() => <h1>register</h1>} />
+            </Switch>
+        </AnimatePresence>
+    )
 }
 
 interface IPropHolder {
@@ -30,7 +28,9 @@ interface IPropHolder {
 
 const WelcomeWrapper:React.FC = (props:IPropHolder) => (
     <>
-        <Header isLoadedApp={props.isLoadedApp} />
+        <motion.div initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}}>
+         <Header  isLoadedApp={props.isLoadedApp} />
+        </motion.div>
         {
             (props.children && props.children)
         }
