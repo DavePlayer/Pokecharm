@@ -13,11 +13,14 @@
 
 #root {
     background-color: #5C006B;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 .mainHeader{
     z-index: 2;
     width: 100%;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     display: flex;
@@ -58,8 +61,8 @@
 
 .visitMain {
     position: relative;
-    height: 100vh;
     z-index: 2;
+    flex-grow: 1;
     display: flex;
     section{
         overflow: hidden;
@@ -69,6 +72,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-bottom: 5%;
         flex-wrap: wrap;
         h1 {
             font-weight: 100;
@@ -98,8 +102,7 @@
 }
 
 .register{
-    width: 100%;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,9 +111,7 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    height: 100vh;
     overflow: hidden;
-    padding-top: 3em;
     input, .buttonHolder > button{
         border-radius: 2em;
         cursor: pointer;
@@ -150,6 +151,50 @@
         align-items: center;
         button {
             flex-basis: 30%;
+        }
+    }
+}
+
+.HomePage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+    gap: 1em;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    .PokeBlock {
+        background-color: rgba(255, 255, 255, 0.4);
+        border: 2px solid white;
+        border-radius: 1em;
+        header {
+            display: flex;
+            border-bottom: 2px solid white;
+            .id {
+                flex-basis: 20%;
+                text-align: center;
+                border-right: 2px solid white;
+            }
+            .name {
+                flex-basis: 80%;
+                text-align: center;
+            }
+        }
+        figure {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                width: 80%;
+            }
+        }
+        article {
+            border-top: 2px solid white;
+            padding: 0.2em;
+            text-align: center;
         }
     }
 }

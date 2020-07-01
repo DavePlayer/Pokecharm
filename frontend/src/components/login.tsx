@@ -26,9 +26,14 @@ export const formVariant = {
 
 export const Login = () => {
     const history = useHistory()
+
+    const handleLogin = (e:any) => {
+        e.preventDefault()
+        history.push('/pokecharm')
+    }
     return (
         <main className='register'>
-            <motion.form variants={formVariant} exit='exit' initial='initial' animate='animate' action="" method='GET' id='loginFrom'>
+            <motion.form onSubmit={(e) => handleLogin(e)} variants={formVariant} exit='exit' initial='initial' animate='animate' action="" method='GET' id='loginFrom'>
                 <input type="email" placeholder='E-mail'/>
                 <input type="password" placeholder='Password'/>
                 <p>Forgot mail or password? Reset <span className='blue'>Here</span></p>
