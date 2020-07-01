@@ -18,7 +18,7 @@ const buttonVariant = {
     }
 }
 
-const pVariant = {
+const h1Variant = {
     begginingPosition: {
         x: '50vw'
     },
@@ -34,15 +34,15 @@ const pVariant = {
 export const VisitHomePage:React.FC = () => {
     const history = useHistory()
     return(
-        <motion.main exit={{x: '-100vw'}} transition={{duration: 0.5}} className="visitMain">
+        <motion.main exit={{x: '-100vw'}} transition={{duration: 1, delay: 0.1}} className="visitMain">
             <section className="welcome">
-                <motion.h1 variants={pVariant} initial={{x: '-50vw'}} animate="animateTo">Welcome to pokecharm</motion.h1>
+                <motion.h1 variants={h1Variant} initial={{x: '-50vw'}} animate="animateTo">Welcome to pokecharm</motion.h1>
             </section>
             <section className="functional">
-                <motion.div variants={pVariant} initial='begginingPosition' animate='animateTo'>
+                <motion.div variants={h1Variant} initial='begginingPosition' animate='animateTo'>
                     <p>Free web application which can help you menage caught pokemons (ex. to get shiny charm) including shinies</p>
-                    <motion.button onClick={() => history.push('/login')} variants={buttonVariant} whileHover='hover'>Login</motion.button>
-                    <motion.button variants={buttonVariant} whileHover='hover'>Register</motion.button>
+                    <motion.button onClick={() => history.push('/login')} variants={buttonVariant} whileHover='hover' >Login</motion.button>
+                    <motion.button onClick={() => history.push('/register')} variants={buttonVariant} whileHover='hover'>Register</motion.button>
                 </motion.div>
             </section>
         </motion.main>

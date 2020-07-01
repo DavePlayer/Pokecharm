@@ -97,13 +97,59 @@
     }
 }
 
-.register {
+.register{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
     position: relative;
     z-index: 2;
     width: 100%;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    overflow: hidden;
+    padding-top: 3em;
+    input, .buttonHolder > button{
+        border-radius: 2em;
+        cursor: pointer;
+        margin-bottom: 1em;
+        font-size: 1.1em;
+        background: none;
+        &::placeholder{
+            color: #ccc;
+        }
+        padding: 1em;
+        text-align: center;
+        border: 2px solid white;
+        color: white;
+    }
+    form {
+        width: 40%;
+        border-radius: 3em;
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 2em;
+        display: flex;
+        flex-direction: column;
+        p{
+            text-align: center;
+            margin-bottom: 1.5em;
+            font-size: 1.2em;
+            .blue{
+                color: rgba($color: #00aeff, $alpha: 1.0);
+                cursor: pointer;
+            }
+        }
+    }
+    .buttonHolder{
+        width: 40%;
+        padding: 1em;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        button {
+            flex-basis: 30%;
+        }
+    }
 }
