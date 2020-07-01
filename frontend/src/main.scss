@@ -195,6 +195,12 @@
             border-top: 2px solid white;
             padding: 0.2em;
             text-align: center;
+            .red {
+                color: rgb(240, 100, 100);
+            }
+            .blue {
+                color: #00aeff;
+            }
         }
     }
 }
