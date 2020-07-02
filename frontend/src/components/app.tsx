@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { Login } from './login'
 import { Register } from './register'
 import { HomePage } from './HomePage'
+//import {crateStore} from 'redux'
 
 
 export const App = () => {
