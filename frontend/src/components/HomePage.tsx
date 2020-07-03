@@ -3,7 +3,7 @@ import { PokemonBlock } from './pokemonBlock'
 import { useSelector, useDispatch } from 'react-redux'
 import { IPokemon } from './reducers/pokemons'
 import { combinedReducers } from './reducers/combined'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useViewportScroll } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Footer } from './footer'
 import { fetchPokemons } from './actions/fetch_pokemons'
@@ -41,6 +41,7 @@ const loadingVariant = {
 export const HomePage = () => {
     const pokemons:Array<IPokemon> = useSelector( (o:combinedReducers) => o.pokemons)
     const [isLoading, setIsLoading] = useState(true)
+    const { scrollYProgress } = useViewportScroll();
     const dispatch = useDispatch()
     let delay=0
     useEffect(() => {
