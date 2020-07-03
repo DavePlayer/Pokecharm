@@ -8,16 +8,13 @@ import { motion } from 'framer-motion'
 import { Login } from './login'
 import { Register } from './register'
 import { HomePage } from './HomePage'
-//import {crateStore} from 'redux'
 
 
 export const App = () => {
     const location = useLocation()
     return(
         <>
-            <motion.div initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}}>
-                <Header path={location} />
-            </motion.div>
+            <Header path={location} />
             <AnimatePresence exitBeforeEnter>
                 <Switch location={location} key={location.key}>
                     <Route exact path='/' render={() => <WelcomeWrapper children={<VisitHomePage />} />} />

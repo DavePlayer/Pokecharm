@@ -28,7 +28,7 @@ const h1Variant:any = {
 export const Header:React.FC<Iprops> = (props) => {
     console.log(props.path)
     return (
-        <header className="mainHeader">
+        <motion.header initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}} className="mainHeader">
             <section className="logoHolder">
                 <Logo />
                 <AnimatePresence exitBeforeEnter>
@@ -40,6 +40,6 @@ export const Header:React.FC<Iprops> = (props) => {
                     }
                 </AnimatePresence>
             </section>
-        </header>
+        </motion.header>
     )
 }

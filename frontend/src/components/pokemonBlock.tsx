@@ -44,6 +44,7 @@ export const PokemonBlock:React.FC<IProps> = (props) => {
                     :
                     <span className='red'> {props.status}</span>
                 }
+                
             </article>
         </motion.section>
     )
