@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
+import { useHistory } from 'react-router-dom'
 
 interface IProps {
     id: number,
     name: string,
     status: string,
     imgUrl: string,
-    delay: number
 }
 
 export const PokemonBlock:React.FC<IProps> = (props) => {
+    const history = useHistory()
     const pokeVariant = {
         initial: {
             scale: 0
@@ -18,12 +19,14 @@ export const PokemonBlock:React.FC<IProps> = (props) => {
             scale: 1,
             transition: {
                 duration: 0.3,
-                delay: props.delay
             }
+        },
+        exit: {
+            x: '-100vw'
         }
     }
     return (
-        <motion.section variants={pokeVariant} initial='initial' animate='animate' className='PokeBlock'>
+        <motion.section onClick={() => history.push(`/pokecharm/pokemon/${props.id}`)} variants={pokeVariant} className='PokeBlock'>
             <header>
                 {
                     props.id <= 9 ?

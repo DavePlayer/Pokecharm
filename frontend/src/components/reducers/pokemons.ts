@@ -3,7 +3,8 @@ export interface IPokemon {
     id: number,
     name: string,
     status: string,
-    imgUrl: string
+    imgUrl: string,
+    details: Object
 }
 
 

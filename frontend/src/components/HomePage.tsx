@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { Footer } from './footer'
 import { fetchPokemons } from './actions/fetch_pokemons'
 import axios from 'axios'
-import { usePromiseTracker, trackPromise } from "react-promise-tracker"
+import { Waypoint } from 'react-waypoint'
 
 const spinnerVariant = {
     animate: {
@@ -38,12 +38,28 @@ const loadingVariant = {
     }
 }
 
+const delayVariant = {
+    initial: {
+        opacity: 0,
+        beforeChildren: true
+    },
+    animate: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            //delayChildren: 0.3
+        }
+    },
+    exit: {
+        opacity: 0,
+    }
+}
+
 export const HomePage = () => {
     const pokemons:Array<IPokemon> = useSelector( (o:combinedReducers) => o.pokemons)
     const [isLoading, setIsLoading] = useState(true)
-    const { scrollYProgress } = useViewportScroll();
+    const [lastElement, setLastElement] = useState(40)
     const dispatch = useDispatch()
-    let delay=0
     useEffect(() => {
         setIsLoading(true)
         setTimeout(() => {
@@ -55,17 +71,23 @@ export const HomePage = () => {
                             id: o.entry_number,
                             name: o.pokemon_species.name,
                             status: 'uncaught',
-                            imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`
+                            imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
+                            details: o.pokemon_species.url
                         }
                         dispatch(fetchPokemons(newPokemon))
                     })
                 })
                 .finally( () => {
-                        console.log('setting loading to false')
                         setIsLoading(false)
                 })
         }, 3000)
     }, [])
+
+    const loadMore = (i:number) => {
+        if(i == lastElement-5){
+            setLastElement(prev => prev += 20)
+        }
+    }
     return (
         <AnimatePresence exitBeforeEnter>
             {
@@ -81,14 +103,19 @@ export const HomePage = () => {
                         <motion.div className='spinner' variants={spinnerVariant}></motion.div>
                     </motion.section>
                     :
-                    <main className="HomePage" key={2}>
+                    <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" key={2}>
                         {
-                            pokemons.slice(0,20).map( (o:any, i:number) => {
-                                return <PokemonBlock key={o.id} delay={delay+=0.2} imgUrl={o.imgUrl} name={o.name} id={o.id} status={o.status} />
+                            pokemons.slice(0,lastElement).map( (o:any, i:number) => {
+                                return(
+                                    <div key={o.id}>
+                                        <Waypoint onEnter={() => loadMore(i)} />
+                                        <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={o.status} />
+                                    </div>
+                                )
                             })
                         }
                         <Footer />
-                    </main>
+                    </motion.main>
             }
         </AnimatePresence>
     )

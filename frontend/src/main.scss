@@ -24,7 +24,12 @@
     top: 0;
     left: 0;
     display: flex;
+    transition: 0.3s;
     padding: 1em;
+    background-color: rgba(93, 0, 107, 0.3);
+    &:hover{
+        background-color: rgba(93, 0, 107, 1);  
+    }
     .logoHolder {
         flex-basis: 50%;
         display: flex;
@@ -54,8 +59,8 @@
     background-color: #6F0081;
     border-radius: 200%;
     position: fixed;
-    top: 30vh;
-    left: 25vw;
+    top: 40vh;
+    left: 20vw;
     box-shadow: 0px 0px 89px 116px rgba(111,0,129,1);
 }
 

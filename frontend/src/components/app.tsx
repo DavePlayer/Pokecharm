@@ -4,10 +4,10 @@ import { Header } from './Header'
 import { VisitHomePage } from './visitHomePage'
 import { Glow } from './Glow'
 import { AnimatePresence } from 'framer-motion'
-import { motion } from 'framer-motion'
 import { Login } from './login'
 import { Register } from './register'
 import { HomePage } from './HomePage'
+import { PokemonDetails } from './pokemonDetails'
 
 
 export const App = () => {
@@ -21,6 +21,7 @@ export const App = () => {
                     <Route exact path='/login' render={() => <WelcomeWrapper children={<Login />}/>} />
                     <Route exact path='/register' render={() => <WelcomeWrapper children={<Register />}/>} />
                     <Route exact path='/pokecharm' render={() => <WelcomeWrapper children={<HomePage />}/>} />
+                    <Route exact path='/pokecharm/pokemon/:id' render={() => <WelcomeWrapper children={<PokemonDetails />}/>} />
                 </Switch>
             </AnimatePresence>
         </>
