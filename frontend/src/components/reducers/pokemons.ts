@@ -7,8 +7,7 @@ export interface IPokemon {
     details: Object
 }
 
-
-export const pokemons = (state:Array<IPokemon> = [], action:any) => {
+export const pokemons = (state:Array<IPokemon>|[] = [], action:any) => {
     switch(action.type){
         case "FETCH_DATA":
             return state = [...state, action.payload]

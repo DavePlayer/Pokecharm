@@ -9,6 +9,7 @@ import { Footer } from './footer'
 import { fetchPokemons } from './actions/fetch_pokemons'
 import axios from 'axios'
 import { Waypoint } from 'react-waypoint'
+import { changeFetchStatus } from './actions/changeFetchStatus'
 
 const spinnerVariant = {
     animate: {
@@ -57,30 +58,34 @@ const delayVariant = {
 
 export const HomePage = () => {
     const pokemons:Array<IPokemon> = useSelector( (o:combinedReducers) => o.pokemons)
+    const didFetch:boolean = useSelector( (o:combinedReducers) => o.didFetch )
     const [isLoading, setIsLoading] = useState(true)
     const [lastElement, setLastElement] = useState(40)
     const dispatch = useDispatch()
     useEffect(() => {
-        setIsLoading(true)
-        setTimeout(() => {
-            axios.get('https://pokeapi.co/api/v2/pokedex/1/')
-                .then( (pokedex:any) => {
-                    console.log(pokedex)
-                    pokedex.data.pokemon_entries.map((o:any) => {
-                        let newPokemon:IPokemon = {
-                            id: o.entry_number,
-                            name: o.pokemon_species.name,
-                            status: 'uncaught',
-                            imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
-                            details: o.pokemon_species.url
-                        }
-                        dispatch(fetchPokemons(newPokemon))
+        if( didFetch == false ){
+            setIsLoading(true)
+            setTimeout(() => {
+                axios.get('https://pokeapi.co/api/v2/pokedex/1/')
+                    .then( (pokedex:any) => {
+                        console.log(pokedex)
+                        pokedex.data.pokemon_entries.map((o:any) => {
+                            let newPokemon:IPokemon = {
+                                id: o.entry_number,
+                                name: o.pokemon_species.name,
+                                status: 'uncaught',
+                                imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
+                                details: o.pokemon_species.url
+                            }
+                            dispatch(fetchPokemons(newPokemon))
+                        })
                     })
-                })
-                .finally( () => {
-                        setIsLoading(false)
-                })
-        }, 3000)
+                    .finally( () => {
+                            setIsLoading(false)
+                            dispatch(changeFetchStatus(true))
+                    })
+            }, 3000)
+        }
     }, [])
 
     const loadMore = (i:number) => {
@@ -89,9 +94,10 @@ export const HomePage = () => {
         }
     }
     return (
-        <AnimatePresence exitBeforeEnter>
-            {
-                isLoading ?
+        <motion.div style={{position: 'relative', zIndex: 2}} exit={{opacity: 0}} transition={{duration: 1}}>
+            <AnimatePresence exitBeforeEnter>
+                {
+                    (isLoading && didFetch==false) ?
                     <motion.section 
                         variants={loadingVariant} 
                         key={1}
@@ -116,7 +122,8 @@ export const HomePage = () => {
                         }
                         <Footer />
                     </motion.main>
-            }
-        </AnimatePresence>
+                }
+            </AnimatePresence>
+        </motion.div>
     )
 }
