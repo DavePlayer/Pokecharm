@@ -23,8 +23,8 @@ class DataBaseClass {
     }
 
     fetchUser = ( email:string, password?:string ) => new Promise((resolve, rej) => {
-        const query = `SELECT * FROM users WHERE email = ${email} && password=\'${password}\'`
-        db.query(query, (err, res) => {
+        const query = `SELECT * FROM users WHERE email =? && password=?`
+        db.query(query, [email, password] , (err, res) => {
             if(err){
                 console.log(`query error: ${err}`)
                 rej({status: 'Error', data: err})
