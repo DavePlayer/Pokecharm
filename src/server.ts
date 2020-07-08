@@ -1,10 +1,12 @@
 import express from 'express'
 import { authRoute } from './authRoutes/combined'
 require('dotenv').config()
+import DataBase from './database'
 
 const app: express.Application = express()
+app.use(express.json())
 
-
+DataBase.connect()
 
 app.get('/', (req:express.Request, res:express.Response) => {
     res.send('works')
