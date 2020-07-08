@@ -1,4 +1,4 @@
-import mysql from 'mysql'
+import mysql, { MysqlError } from 'mysql'
 import { resolve } from 'path'
 
 const db: mysql.Connection = mysql.createConnection({
@@ -7,6 +7,14 @@ const db: mysql.Connection = mysql.createConnection({
     password: '',
     database: 'pokecharm'
 })
+
+interface IregisterData {
+    type: 'registerData'
+    name: string,
+    email: string,
+    phoneNumber: string,
+    password: string
+}
 
 class DataBaseClass {
     constructor(){
@@ -22,18 +30,37 @@ class DataBaseClass {
         })
     }
 
-    fetchUser = ( email:string, password?:string ) => new Promise((resolve, rej) => {
+    validateUser = ( email:string, password?:string ) => new Promise((resolve, rej) => {
         const query = `SELECT * FROM users WHERE email =? && password=?`
         db.query(query, [email, password] , (err, res) => {
             if(err){
-                console.log(`query error: ${err}`)
                 rej({status: 'Error', data: err})
             } else {
-                console.log('user fetched', res)
-                resolve({status: 'user fetched', data: res})
+                if(res.length == 0) {
+                    resolve({status: 'no users found'})
+                }
+                resolve({status: 'user fetched'})
             }
         })
-    }) 
+    })
+
+    registerUser = (data:IregisterData) => new Promise((resolve, rej) => {
+        if(data.type == 'registerData'){
+            const arr = Object.entries(data)
+            let trueData:any = []
+            arr.map( (o, i) => {
+                i !== 0 && (trueData = [...trueData, o[1]])
+            })
+            const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?)`
+            db.query(query, trueData, (err, res) => {
+                if(!err){
+                    resolve({status: "added new user", res})
+                } else {
+                    rej({status: "Error mf", err})
+                }
+            })
+        }
+    })
 }
 
 const DataBase = new DataBaseClass()
