@@ -1,5 +1,6 @@
 import express from 'express'
 import DataBase from './../database'
+import { verifyToken } from '../middlewares/jwtVerify'
 const emailCheck = require('email-check')
 
 export const auth:express.Router = express.Router()
@@ -13,6 +14,10 @@ auth.get('/login' , (req:express.Request, res:express.Response) => {
     .catch( (err) => {
         res.send(err)
     })
+})
+
+auth.get('/test', verifyToken, (req:any, res:express.Response) => {
+    res.json(req.email)
 })
 
 auth.post('/register' , (req:express.Request, res:express.Response) => {

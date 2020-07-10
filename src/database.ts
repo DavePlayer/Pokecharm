@@ -1,4 +1,5 @@
 import mysql from 'mysql'
+import jwt from 'jsonwebtoken'
 
 const db: mysql.Connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -38,7 +39,8 @@ class DataBaseClass {
                 if(res.length == 0) {
                     resolve({status: 'no users found'})
                 }
-                resolve({status: 'user fetched'})
+                const token = jwt.sign({email}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                resolve({status: 'user fetched', token})
             }
         })
     })
@@ -53,7 +55,8 @@ class DataBaseClass {
             const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?)`
             db.query(query, trueData, (err, res) => {
                 if(!err){
-                    resolve({status: "added new user", res})
+                    const token = jwt.sign({email: data.email}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    resolve({status: "added new user", res, token})
                 } else {
                     rej({status: "Error mf", err})
                 }
