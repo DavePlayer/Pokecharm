@@ -1,5 +1,4 @@
-import mysql, { MysqlError } from 'mysql'
-import { resolve } from 'path'
+import mysql from 'mysql'
 
 const db: mysql.Connection = mysql.createConnection({
     host: '127.0.0.1',

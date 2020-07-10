@@ -2,7 +2,7 @@ import express from 'express'
 import DataBase from './../database'
 const emailCheck = require('email-check')
 
-export const auth: express.Router = express.Router()
+export const auth:express.Router = express.Router()
 
 auth.get('/login' , (req:express.Request, res:express.Response) => {
     const {email, password}:{email: string, password:string} = req.body
