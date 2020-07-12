@@ -1,7 +1,9 @@
 import express from 'express'
-import { auth } from './auth'
+import { authRouter } from './auth'
+import { dataRouter } from './dataMenagment'
 
-export const authRoute: express.Router = express.Router()
+export const Router: express.Router = express.Router()
 
-authRoute.use('/', auth)
+Router.use('/auth', authRouter)
+Router.use('/data', dataRouter)
 

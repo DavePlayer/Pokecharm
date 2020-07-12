@@ -1,5 +1,5 @@
 import express from 'express'
-import { authRoute } from './authRoutes/combined'
+import { Router } from './authRoutes/combined'
 require('dotenv').config()
 import DataBase from './database'
 
@@ -12,7 +12,7 @@ app.get('/', (req:express.Request, res:express.Response) => {
     res.send('works')
 })
 
-app.use('/auth', authRoute)
+app.use('/', Router)
 
 app.listen(process.env.PORT, () => {
     console.log(`listening on ${process.env.PORT}`)

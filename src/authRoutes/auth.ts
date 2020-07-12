@@ -3,9 +3,9 @@ import DataBase from './../database'
 import { verifyToken } from '../middlewares/jwtVerify'
 const emailCheck = require('email-check')
 
-export const auth:express.Router = express.Router()
+export const authRouter:express.Router = express.Router()
 
-auth.get('/login' , (req:express.Request, res:express.Response) => {
+authRouter.get('/login' , (req:express.Request, res:express.Response) => {
     const {email, password}:{email: string, password:string} = req.body
     DataBase.validateUser(email, password)
     .then( (o:any) => {
@@ -16,16 +16,16 @@ auth.get('/login' , (req:express.Request, res:express.Response) => {
     })
 })
 
-auth.get('/test', verifyToken, (req:any, res:express.Response) => {
-    res.json(req.email)
+authRouter.get('/test', verifyToken, (req:any, res:express.Response) => {
+    res.json(req.id)
 })
 
-auth.post('/register' , (req:express.Request, res:express.Response) => {
-    emailCheck(req.body.email)
-    .then( (o:any) => {
-        if(!o){
-            res.json({status: 'error', err: 'Email doesn\'t exist'})
-        } else {
+authRouter.post('/register' , (req:express.Request, res:express.Response) => {
+    // emailCheck(req.body.email)
+    // .then( (o:any) => {
+    //     if(!o){
+    //         res.json({status: 'error', err: 'Email doesn\'t exist'})
+    //     } else {
             DataBase.registerUser(req.body)
             .then (o => {
                 res.json(o)
@@ -33,6 +33,6 @@ auth.post('/register' , (req:express.Request, res:express.Response) => {
             .catch( err => {
                 res.json(err)
             })
-        }
-    })
+        //}
+    //})
 })
