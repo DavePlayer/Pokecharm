@@ -13,11 +13,13 @@ type Props = {
 
 export const SafeRoute:React.FC<Props> = ({component, path}) => {
     const user = useSelector( (combined:combinedReducers) => combined.user)
-
+    useEffect(() => {
+        console.log('co kolwiek')
+    }, [])
+    if(user.isUserLoged === true)
+    return (<>{component}</>)
+    else
     return (
-        user.isUserLoged === true ? 
-            <>{component}</>
-            : 
-            <Redirect to={{ pathname: '/login', state: { from: path, error: {status: 'error', err: 'Not logged idiot'}}}} />   
+        <Redirect to={{ pathname: '/login', state: { from: path, error: {status: 'error', err: 'Not logged idiot'}}}} />   
     )
 }

@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { combinedReducers } from './reducers/combined'
+import { useState } from 'react'
+import Axios from 'axios'
+import { setUser } from './actions/setUser'
+import { loadUserData } from './actions/loadUserData'
 
 export const formVariant = {
     initial: {
@@ -24,21 +30,45 @@ export const formVariant = {
     }
 }
 
-export const Login = () => {
+export const Login = (props:any) => {
     const history = useHistory()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const user = useSelector( (combined:combinedReducers) => combined.user)
+    const dispatch = useDispatch()
 
     const handleLogin = (e:any) => {
         e.preventDefault()
-        history.push('/pokecharm')
+        if(email.length == 0 || password.length == 0)
+            setError('Fill data first baka!')
+        Axios.get('http://127.0.0.1:7200/auth/login', {params: {email, password}})
+        .then( o => {
+            if(o.data.status != 'error'){
+                setError('')
+                dispatch(setUser({isUserLoged: true, token:o.data.token}))
+            } else {
+                setError(`${o.data.status}: ${o.data.err}`)
+            }
+        })
     }
+    React.useEffect(() => {
+        if(props.location.state)
+            setError(props.location.state.error.err)
+    }, [])
+
+    if (user.isUserLoged == true)
+    return (
+        <motion.div variants={formVariant} exit='exit' initial='initial' animate='animate'><Redirect to="/pokecharm" push/></motion.div>
+    )
+    else
     return (
         <main className='register'>
             <motion.form onSubmit={(e) => handleLogin(e)} variants={formVariant} exit='exit' initial='initial' animate='animate' action="" method='GET' id='loginFrom'>
-                <input type="email" placeholder='E-mail'/>
-                <input type="password" placeholder='Password'/>
+                <input type="email" onChange={ e => setEmail(e.target.value)} placeholder='E-mail'/>
+                <input type="password" onChange={ e => setPassword(e.target.value)} placeholder='Password'/>
                 <p>Forgot mail or password? Reset <span className='blue'>Here</span></p>
-                <p>or</p>
-                <p>google</p>
+                <p>{error}</p>
             </motion.form>
             <motion.section variants={formVariant} exit='exit'  initial='initial' animate='animate' className='buttonHolder'>
                 <button onClick={() => history.push('/')}>Go back</button>

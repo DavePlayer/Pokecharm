@@ -1,5 +1,4 @@
 import Axios from "axios"
-import { stringify } from "querystring"
 
 export const loadUserData = () => {
     return (dispatch:any) => {
@@ -14,6 +13,8 @@ export const loadUserData = () => {
                     dispatch({type: 'LOAD_USER_DATA' ,payload :{isUserLoged: true, token}})
                 } else return dispatch({type: 'LOAD_USER_DATA' ,payload: {isUserLoged: false}})
             })
+        } else {
+            console.log('no token saved')
         }
     }
 }

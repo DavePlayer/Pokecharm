@@ -63,11 +63,11 @@ export const PokemonDetails:React.FC = () => {
         })
     }, [])
     return (
-        <>
+        <div style={{overflow: 'hidden', position: 'relative', zIndex: 2}}>
         {
             (fetched && dex) &&
-            (<div style={{overflow: 'hidden'}}>
-                <motion.main className='pokemonDatails' variants={mainVariant} initial='initial' animate='animate' exit='exit'  >
+            (<motion.div  variants={mainVariant} initial='initial' animate='animate' exit='exit'>
+                <motion.main className='pokemonDatails'>
                     <section className="mainData">
                         <figure><img src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`} alt={data.name}/></figure>
                         <article>
@@ -126,8 +126,8 @@ export const PokemonDetails:React.FC = () => {
                         <p>{dex.flavor_text}</p>
                     </section>
                 </motion.main>
-            </div>)
+            </motion.div>)
         }
-        </>
+        </div>
     )
 }

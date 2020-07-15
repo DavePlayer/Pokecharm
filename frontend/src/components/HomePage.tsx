@@ -63,6 +63,7 @@ export const HomePage = () => {
     const [lastElement, setLastElement] = useState(40)
     const dispatch = useDispatch()
     useEffect(() => {
+        console.log('HOME PAGE NIGA!!!!')
         if( didFetch == false ){
             setIsLoading(true)
             setTimeout(() => {
