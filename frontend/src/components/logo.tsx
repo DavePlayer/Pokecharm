@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as logo from './../../images/Logo_Omega.png'
+const logo = require('./../../images/Logo_Omega.png')
 
 
 export const Logo = () => {

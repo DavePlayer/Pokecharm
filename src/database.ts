@@ -43,13 +43,15 @@ class DataBaseClass {
         const query = `SELECT * FROM users WHERE email =? && password=?`
         db.query(query, [email, password] , (err, res) => {
             if(err){
-                rej({status: 'Error', err})
+                rej({status: 'error', err: "server can't connect to database. we are sory"})
             } else {
+                console.log(res)
                 if(res.length == 0) {
-                    resolve({status: 'Wrong data provided'})
+                    rej({status: 'error', err: "Wrong data provided"})
+                } else {
+                    const token = jwt.sign({id: res[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    resolve({status: 'user fetched', token})
                 }
-                const token = jwt.sign({id: res[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
-                resolve({status: 'user fetched', token})
             }
         })
     })

@@ -3,3 +3,4 @@ declare namespace Express {
         email: object | undefined
     }
 }
+declare module '*.png'
