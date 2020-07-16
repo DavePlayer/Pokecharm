@@ -40,6 +40,20 @@ export const Header:React.FC<Iprops> = (props) => {
                     }
                 </AnimatePresence>
             </section>
+            <section className="filters">
+                <ul>
+                    <li>Game Version
+                        <ol>
+                            <li>xd</li>
+                            <li>xd</li>
+                            <li>xd</li>
+                        </ol>
+                    </li>
+                    <li>Status Filter</li>
+                    <li>Shiny Helper</li>
+                    <li>Pokedex</li>
+                </ul>
+            </section>
         </motion.header>
     )
 }
