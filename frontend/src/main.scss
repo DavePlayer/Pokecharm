@@ -75,13 +75,30 @@
                     display: none;
                     position: absolute;
                     width: 100%;
+                    min-width: 10em;
+                    overflow: visible;
+                    max-height: 10em;
+                    overflow-y: scroll;
                     top: 3em;
-                    left: 0;
                     flex-basis: 100%;
+                    &::-webkit-scrollbar {
+                        width: 5px;
+                    }
+                    &::-webkit-scrollbar-thumb {
+                        background-color: rgba($color: rgb(126, 126, 126), $alpha: 0.3);
+                        border-radius: 1em;
+                    }
+                    &::-webkit-scrollbar-corner{
+                        display: none;
+                    }
                     li {
-                        background-color: #540162;
+                        overflow: visible;
                         border-bottom: 1px solid black;
                         text-align: center;
+                        background-color: rgba(93, 0, 107, 1);
+                    }
+                    .selected {
+                        background-color: #3d0047;
                     }
                 }
             }
