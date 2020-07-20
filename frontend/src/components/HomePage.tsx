@@ -78,7 +78,7 @@ export const HomePage = () => {
                 axios.get('https://pokeapi.co/api/v2/pokedex/1/', { cancelToken: source.token })
                     .then( (o:any) => {
                         console.log(o.data)
-                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {tableName: 'redkanto'}, headers: {authorization: user.token}})
+                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: 'red', pokedex: 'kanto'}, headers: {authorization: user.token}})
                         .then( (data:any) => {
                             if(data.status = 'data fetched'){
                                 o.data.pokemon_entries.map((o:any) => {

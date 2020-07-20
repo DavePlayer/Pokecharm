@@ -84,7 +84,9 @@ export const getTableName = (gameVersion:string, pokedex:string):string => {
         case 'updated-poni':
             table += 'poni'
             break
-               
+        default:
+            table += pokedex
+            break      
     }
     return table
 }
