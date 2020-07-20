@@ -12,6 +12,8 @@ import { Waypoint } from 'react-waypoint'
 import { changeFetchStatus } from './actions/changeFetchStatus'
 import { loadUserData } from './actions/loadUserData'
 import * as _ from 'lodash'
+import { FilterState } from './reducers/filters'
+import { getGameNameById } from '../getGameNameById'
 
 const spinnerVariant = {
     animate: {
@@ -65,7 +67,7 @@ export const HomePage = () => {
     const [lastElement, setLastElement] = useState(40)
     const [filtredPokemons, setFiltredPokemons] = useState(pokemons)
     const dispatch = useDispatch()
-    const filters = useSelector( (combined:combinedReducers) => combined.filters)
+    const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
     const user = useSelector( (combined:combinedReducers) => combined.user)
 
     useEffect(() => {
@@ -77,7 +79,6 @@ export const HomePage = () => {
             setTimeout(() => {
                 axios.get('https://pokeapi.co/api/v2/pokedex/1/', { cancelToken: source.token })
                     .then( (o:any) => {
-                        console.log(o.data)
                         axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: 'red', pokedex: 'kanto'}, headers: {authorization: user.token}})
                         .then( (data:any) => {
                             if(data.status = 'data fetched'){
@@ -141,16 +142,33 @@ export const HomePage = () => {
                 })
                 console.log(dexxx, filters.pokedex)
                 axios.get(dexxx[0].url)
-                .then( o => {
-                    console.log('o', o)
-                    const test = pokemons.filter( (o2:IPokemon) => {
-                            const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
-                            if(test2.length > 0)
-                                return o2
-                        }
-                    )
-                    console.log('test', test)
-                    setFiltredPokemons(test)
+                .then( (o:any) => {
+                    axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
+                    .then( (o3:any) => {
+                        console.log('o', o)
+                        const test = pokemons.filter( (o2:IPokemon) => {
+                                const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
+                                if(test2.length > 0){
+                                    if(o3.data.data.length > 0){                                   
+                                        const test3 = o3.data.data.filter( (oo:any) => {
+                                            if(oo.pokemonName == o2.name)
+                                                return oo
+                                        })
+                                        if(test3.length > 0)
+                                            o2.status = test3[0].normalStatus
+                                        else 
+                                        o2.status = 'uncaught'
+                                        console.log(o2.status)
+                                    } else {
+                                        o2.status = 'uncaught'
+                                    }
+                                    return o2
+                                }
+                            }
+                        )
+                        console.log('test', test)
+                        setFiltredPokemons(test)
+                    })
                 }).finally(() => {
                     console.log('MAKARENA!!!!', isLoading)
                     source.cancel();

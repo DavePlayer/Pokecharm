@@ -1,0 +1,65 @@
+export const getGameNameById = (id:number):string => {
+    switch(id){
+        case 1:
+            return 'red'
+        case 2:
+            return 'blue'
+        case 3:
+            return 'yellow'
+        case 4:
+            return 'gold'
+        case 5:
+            return 'silver'
+        case 6:
+            return 'crystal'
+        case 7:
+            return 'ruby'
+        case 8:
+            return 'sapphire'
+        case 9:
+            return 'emerald'
+        case 10:
+            return 'firered'
+        case 11:
+            return 'leafgreen'
+        case 12:
+            return 'diamond'
+        case 13:
+            return 'pearl'
+        case 14:
+            return 'platinum'
+        case 15:
+            return 'heartgold'
+        case 16:
+            return 'soulsilver'
+        case 17:
+            return 'black'
+        case 18:
+            return 'white'
+        case 19:
+            return 'colosseum'
+        case 20:
+            return 'xd'
+        case 21:
+            return 'black-2'
+        case 22:
+            return 'white-2'
+        case 23:
+            return 'x'
+        case 24:
+            return 'y'
+        case 25:
+            return 'omega-ruby'
+        case 26:
+            return 'alpha-sapphire'
+        case 27:
+            return 'sun'
+        case 28:
+            return 'moon'
+        case 29:
+            return 'ultra-sun'
+        case 30:
+            return 'ultra-moon'
+
+    }
+}
