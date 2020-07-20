@@ -6,6 +6,18 @@
     color: white;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: rgba($color: rgb(51, 0, 59), $alpha: 0.7);
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba($color: rgb(126, 126, 126), $alpha: 1);
+    border-radius: 1em;
+}
+::-webkit-scrollbar-corner{
+    display: none;
+}
+
 @font-face {
     font-family: 'Open Sans';
     src: url('./../fonts//OpenSans-Regular.ttf');
@@ -76,7 +88,6 @@
                     position: absolute;
                     width: 100%;
                     min-width: 10em;
-                    overflow: visible;
                     max-height: 10em;
                     overflow-y: scroll;
                     top: 3em;

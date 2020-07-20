@@ -10,6 +10,8 @@ import { fetchPokemons } from './actions/fetch_pokemons'
 import axios from 'axios'
 import { Waypoint } from 'react-waypoint'
 import { changeFetchStatus } from './actions/changeFetchStatus'
+import { loadUserData } from './actions/loadUserData'
+import * as _ from 'lodash'
 
 const spinnerVariant = {
     animate: {
@@ -61,33 +63,100 @@ export const HomePage = () => {
     const didFetch:boolean = useSelector( (o:combinedReducers) => o.didFetch )
     const [isLoading, setIsLoading] = useState(true)
     const [lastElement, setLastElement] = useState(40)
+    const [filtredPokemons, setFiltredPokemons] = useState(pokemons)
     const dispatch = useDispatch()
+    const filters = useSelector( (combined:combinedReducers) => combined.filters)
+    const user = useSelector( (combined:combinedReducers) => combined.user)
+
     useEffect(() => {
-        console.log('HOME PAGE NIGA!!!!')
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        dispatch(loadUserData())
         if( didFetch == false ){
             setIsLoading(true)
             setTimeout(() => {
-                axios.get('https://pokeapi.co/api/v2/pokedex/1/')
-                    .then( (pokedex:any) => {
-                        console.log(pokedex)
-                        pokedex.data.pokemon_entries.map((o:any) => {
-                            let newPokemon:IPokemon = {
-                                id: o.entry_number,
-                                name: o.pokemon_species.name,
-                                status: 'uncaught',
-                                imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
-                                details: o.pokemon_species.url
+                axios.get('https://pokeapi.co/api/v2/pokedex/1/', { cancelToken: source.token })
+                    .then( (o:any) => {
+                        console.log(o.data)
+                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {tableName: 'redkanto'}, headers: {authorization: user.token}})
+                        .then( (data:any) => {
+                            if(data.status = 'data fetched'){
+                                o.data.pokemon_entries.map((o:any) => {
+                                    let newPokemon:IPokemon = {
+                                        id: o.entry_number,
+                                        name: o.pokemon_species.name,
+                                        status: 'uncaught',
+                                        imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
+                                        details: o.pokemon_species.url
+                                    }
+                                    dispatch(fetchPokemons({
+                                        id: o.entry_number,
+                                        name: o.pokemon_species.name,
+                                        status: 'uncaught',
+                                        imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
+                                        details: o.pokemon_species.url
+                                    }))
+                                    setFiltredPokemons( prev => {
+                                        const test3 = data.data.data.filter( (oo:any) => {
+                                            if(oo.pokemonName == newPokemon.name)
+                                                return oo
+                                        })
+                                        if(test3.length > 0){
+                                            newPokemon.status = test3[0].normalStatus
+                                        }
+                                        if(prev.length < 151)
+                                            return [...prev, newPokemon]
+                                        else
+                                            return prev
+                                    })
+                                })
+                                // const test3 = filtredPokemons.map( pok => {
+                                //     const current = data.data.filter( (oo:any) => oo.name == pok.name ? oo : {normalStatus: 'uncaught'})
+                                //     return pok.status = current[0].normalStatus
+                                // })
+                                // console.log(filtredPokemons, test3)
+                                //setFiltredPokemons(test3)
                             }
-                            dispatch(fetchPokemons(newPokemon))
-                        })
+                        })                        
                     })
                     .finally( () => {
-                            setIsLoading(false)
-                            dispatch(changeFetchStatus(true))
+                        setIsLoading(false)
+                        dispatch(changeFetchStatus(true))
+                        source.cancel()
                     })
             }, 3000)
         }
     }, [])
+
+    useEffect( () => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        axios.get('https://pokeapi.co/api/v2/pokedex/?limit=1000', { cancelToken: source.token })
+            .then( (o:any) => {
+                console.log(o.data.results)
+                console.log('xddddddddd')
+                const dexxx:any = o.data.results.filter((o:any) => {
+                    if(o.name == filters.pokedex)
+                    return o
+                })
+                console.log(dexxx, filters.pokedex)
+                axios.get(dexxx[0].url)
+                .then( o => {
+                    console.log('o', o)
+                    const test = pokemons.filter( (o2:IPokemon) => {
+                            const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
+                            if(test2.length > 0)
+                                return o2
+                        }
+                    )
+                    console.log('test', test)
+                    setFiltredPokemons(test)
+                }).finally(() => {
+                    console.log('MAKARENA!!!!', isLoading)
+                    source.cancel();
+                })
+            })
+    },[filters])
 
     const loadMore = (i:number) => {
         if(i == lastElement-5){
@@ -112,7 +181,7 @@ export const HomePage = () => {
                     :
                     <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" key={2}>
                         {
-                            pokemons.slice(0,lastElement).map( (o:any, i:number) => {
+                            filtredPokemons.slice(0,lastElement).map( (o:any, i:number) => {
                                 return(
                                     <div key={o.id}>
                                         <Waypoint onEnter={() => loadMore(i)} />

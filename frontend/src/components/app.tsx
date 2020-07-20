@@ -15,11 +15,6 @@ import { SafeRoute } from './safeRoute'
 
 
 export const App = () => {
-    const dispatch = useDispatch()
-    
-    useEffect(() => {
-        dispatch(loadUserData())
-    }, [])
     return(
         <>
                 <BrowserRouter>

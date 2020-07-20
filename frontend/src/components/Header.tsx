@@ -4,6 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Axios, { AxiosResponse } from 'axios'
 import { filterPokedexGameGroup } from '../filterPokedexes'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeGameVersion } from './actions/changeGameVersion'
+import { changePokedexId } from './actions/changePokedex'
+import { combinedReducers } from './reducers/combined'
+import { setStatusFilter } from './actions/setStatusFilter'
+import { setShinyHelper } from './actions/setShinyHelper'
 
 interface Iprops {
     path?: any
@@ -30,10 +36,10 @@ const h1Variant:any = {
 
 export const Header:React.FC<Iprops> = (props) => {
     const [gameVersions, setGameVersions] = useState<Array<{name: string, url: string}>>([])
-    const [selectedVersion, setSelectedVersion] = useState<number>(1)
-    const [dex, setDex] = useState<number>(1)
     const [isLoading, setIsLoading] = useState<boolean>(false)    
     const [pokedexes, setPokedexes] = useState<Array<{name: string, url: string}>>([])    
+    const dispatch = useDispatch()
+    const filters = useSelector( (combined:combinedReducers) => combined.filters )
 
     useEffect(() => {
         setIsLoading(true)
@@ -42,7 +48,7 @@ export const Header:React.FC<Iprops> = (props) => {
                 console.log(o.data)
                 setGameVersions(o.data.results)
             }).finally( () => {
-                const dexIndex:number = filterPokedexGameGroup(selectedVersion)
+                const dexIndex:number = filterPokedexGameGroup(filters.gameVersion)
                 console.log(dexIndex)
                 Axios.get(`https://pokeapi.co/api/v2/version-group/${dexIndex}`)
                 .then( o => {
@@ -61,22 +67,41 @@ export const Header:React.FC<Iprops> = (props) => {
             o.setAttribute('class', '')
         })
         e.target.classList += 'selected'
-        setSelectedVersion(index)
+        dispatch(changeGameVersion(index+1))
 
         const dexIndex:number = filterPokedexGameGroup((index + 1))
         console.log('dex index', dexIndex, ' ', index + 1)
         Axios.get(`https://pokeapi.co/api/v2/version-group/${dexIndex}`)
         .then( o => {
             setPokedexes(o.data.pokedexes)
+            dispatch(changePokedexId(o.data.pokedexes[0].name))
         })
     }
-    const handleSelectDex = (e:any, index:number) => {
+    const handleSelectDex = (e:any, name:string) => {
         const lis = document.querySelectorAll('.Dexes > li')
         Array.prototype.map.call(lis, (o:any) => {
             o.setAttribute('class', '')
         })
         e.target.classList += 'selected'
-        setDex(index)
+        dispatch(changePokedexId(name))
+    }
+
+    const handleBooleanFilters = (e:any, filtertype:string, set:boolean|string) => {
+        if(filtertype == 'status'){
+            const lis = document.querySelectorAll('.statusFilter > li')
+            Array.prototype.map.call(lis, (o:any) => {
+                o.setAttribute('class', '')
+            })
+            e.target.classList += 'selected'
+            dispatch(setStatusFilter(set))
+        } else {
+            const lis = document.querySelectorAll('.shinyHelper > li')
+            Array.prototype.map.call(lis, (o:any) => {
+                o.setAttribute('class', '')
+            })
+            e.target.classList += 'selected'
+            dispatch(setShinyHelper(set))
+        }
     }
 
     return (
@@ -112,15 +137,16 @@ export const Header:React.FC<Iprops> = (props) => {
                         </ol>
                     </li>
                     <li>Status Filter
-                        <ol>
-                            <li>On</li>
-                            <li>Off</li>
+                        <ol className='statusFilter'>
+                            <li className='selected' onClick={(e:any) => handleBooleanFilters(e, 'status', 'all')}>All</li>
+                            <li onClick={(e:any) => handleBooleanFilters(e, 'status', 'caught')}>Caught</li>
+                            <li onClick={(e:any) => handleBooleanFilters(e, 'status', 'uncaught')}>Uncaught</li>
                         </ol>
                     </li>
                     <li>Shiny Helper
-                        <ol>
-                            <li>On</li>
-                            <li>Off</li>
+                        <ol className='shinyHelper'>
+                            <li onClick={(e:any) => handleBooleanFilters(e, 'shiny', true)}>On</li>
+                            <li className='selected' onClick={(e:any) => handleBooleanFilters(e, 'shiny', false)}>Off</li>
                         </ol>
                     </li>
                     <li>Pokedex
@@ -130,9 +156,9 @@ export const Header:React.FC<Iprops> = (props) => {
                                 pokedexes.map( (o, i:number) => {
                                     return(
                                         i == 0 ?
-                                        <li className='selected' onClick={(e) => handleSelectDex(e, i)} key={o.name}>{o.name}</li>
+                                        <li className='selected' onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
                                         :
-                                        <li onClick={(e) => handleSelectDex(e, i)} key={o.name}>{o.name}</li>
+                                        <li onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
                                     )
                                 })
                             :

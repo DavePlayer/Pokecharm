@@ -42,7 +42,7 @@ export const Login = (props:any) => {
         e.preventDefault()
         if(email.length == 0 || password.length == 0)
             setError('Fill data first baka!')
-        Axios.get('http://127.0.0.1:7200/auth/login', {params: {email, password}})
+        Axios.get('http://10.0.0.26:7200/auth/login', {params: {email, password}})
         .then( o => {
             if(o.data.status != 'error'){
                 setError('')
@@ -55,6 +55,7 @@ export const Login = (props:any) => {
     React.useEffect(() => {
         if(props.location.state)
             setError(props.location.state.error.err)
+            dispatch(loadUserData())
     }, [])
 
     if (user.isUserLoged == true)
