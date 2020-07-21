@@ -105,9 +105,9 @@ class DataBaseClass {
                         } else {
                             if(data.status != 'uncaught'){
                                 if(data.shiny == true) {
-                                    reso(`INSERT INTO ${data.tableName}(pokemonName, userId, shinyStatus) VALUES ( ?, ?, ?)`)
+                                    reso(`INSERT INTO ${data.tableName}(shinyStatus, pokemonName, userId) VALUES ( ?, ?, ?)`)
                                 } else {
-                                    reso(`INSERT INTO ${data.tableName}(pokemonName, userId, normalStatus) VALUES ( ?, ?, ?)`)
+                                    reso(`INSERT INTO ${data.tableName}(normalStatus, pokemonName, userId) VALUES ( ?, ?, ?)`)
                                 }
                             } else {
                                 rej({status: 'error', err: 'tried to delete not existing data'})
@@ -120,9 +120,13 @@ class DataBaseClass {
             })
             checkifExist
             .then(query => {
+                let validateArray = [data.status, data.pokemonName, userId]
                 console.log(query, userId)
                 console.log(data)
-                db.query(query, [ data.pokemonName, userId, data.status], (err:any, res:mysql.OkPacket) => {
+                if(query == `DELETE FROM ${data.tableName} WHERE pokemonName=? AND userId=? `){
+                    validateArray = [data.pokemonName, userId]
+                }
+                db.query(query,validateArray , (err:any, res:mysql.OkPacket) => {
                     if(!err){
                         resolve({status: 'data inserted'})
                     } else {

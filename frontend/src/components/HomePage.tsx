@@ -86,14 +86,16 @@ export const HomePage = () => {
                                     let newPokemon:IPokemon = {
                                         id: o.entry_number,
                                         name: o.pokemon_species.name,
-                                        status: 'uncaught',
+                                        normalStatus: 'uncaught',
+                                        shinyStatus: 'uncaught',
                                         imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
                                         details: o.pokemon_species.url
                                     }
                                     dispatch(fetchPokemons({
                                         id: o.entry_number,
                                         name: o.pokemon_species.name,
-                                        status: 'uncaught',
+                                        normalStatus: 'uncaught',
+                                        shinyStatus: 'uncaught',
                                         imgUrl: `https://pokeres.bastionbot.org/images/pokemon/${o.entry_number}.png`,
                                         details: o.pokemon_species.url
                                     }))
@@ -103,7 +105,8 @@ export const HomePage = () => {
                                                 return oo
                                         })
                                         if(test3.length > 0){
-                                            newPokemon.status = test3[0].normalStatus
+                                            newPokemon.normalStatus = test3[0].normalStatus
+                                            newPokemon.shinyStatus = test3[0].shinyStatus
                                         }
                                         if(prev.length < 151)
                                             return [...prev, newPokemon]
@@ -111,12 +114,6 @@ export const HomePage = () => {
                                             return prev
                                     })
                                 })
-                                // const test3 = filtredPokemons.map( pok => {
-                                //     const current = data.data.filter( (oo:any) => oo.name == pok.name ? oo : {normalStatus: 'uncaught'})
-                                //     return pok.status = current[0].normalStatus
-                                // })
-                                // console.log(filtredPokemons, test3)
-                                //setFiltredPokemons(test3)
                             }
                         })                        
                     })
@@ -135,7 +132,7 @@ export const HomePage = () => {
         axios.get('https://pokeapi.co/api/v2/pokedex/?limit=1000', { cancelToken: source.token })
             .then( (o:any) => {
                 console.log(o.data.results)
-                console.log('xddddddddd')
+                console.log('xdddddddddd')
                 const dexxx:any = o.data.results.filter((o:any) => {
                     if(o.name == filters.pokedex)
                     return o
@@ -154,23 +151,25 @@ export const HomePage = () => {
                                             if(oo.pokemonName == o2.name)
                                                 return oo
                                         })
-                                        if(test3.length > 0)
-                                            o2.status = test3[0].normalStatus
-                                        else 
-                                        o2.status = 'uncaught'
-                                        console.log(o2.status)
+                                        if(test3.length > 0){
+                                            o2.normalStatus = test3[0].normalStatus
+                                            o2.shinyStatus = test3[0].shinyStatus
+                                        } else {
+                                            o2.normalStatus = 'uncaught'
+                                            o2.shinyStatus = 'uncaught'
+                                        }
+                                        console.log(o2.normalStatus)
                                     } else {
-                                        o2.status = 'uncaught'
+                                        o2.normalStatus = 'uncaught'
+                                        o2.shinyStatus = 'uncaught'
                                     }
                                     return o2
                                 }
                             }
                         )
-                        console.log('test', test)
                         setFiltredPokemons(test)
                     })
                 }).finally(() => {
-                    console.log('MAKARENA!!!!', isLoading)
                     source.cancel();
                 })
             })
@@ -199,14 +198,55 @@ export const HomePage = () => {
                     :
                     <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" key={2}>
                         {
-                            filtredPokemons.slice(0,lastElement).map( (o:any, i:number) => {
-                                return(
-                                    <div key={o.id}>
-                                        <Waypoint onEnter={() => loadMore(i)} />
-                                        <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={o.status} />
-                                    </div>
-                                )
-                            })
+                            filters.statusFilter == 'all' ?
+                                filtredPokemons.slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                    return(
+                                        <div key={o.id}>
+                                            <Waypoint onEnter={() => loadMore(i)} />
+                                            <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
+                                        </div>
+                                    )
+                                })
+                            :
+                                !filters.shineHelper ?
+                                    filters.statusFilter == 'caught' ?
+                                        filtredPokemons.filter( (o:IPokemon) => o.normalStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                            return(
+                                                <div key={o.id}>
+                                                    <Waypoint onEnter={() => loadMore(i)} />
+                                                    <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
+                                                </div>
+                                            )
+                                        })
+                                    :
+                                        filtredPokemons.filter( (o:IPokemon) => o.normalStatus == 'uncaught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                            return(
+                                                <div key={o.id}>
+                                                    <Waypoint onEnter={() => loadMore(i)} />
+                                                    <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
+                                                </div>
+                                            )
+                                        })
+                                :
+                                    filters.statusFilter == 'caught' ?
+                                        filtredPokemons.filter( (o:IPokemon) => o.shinyStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                            return(
+                                                <div key={o.id}>
+                                                    <Waypoint onEnter={() => loadMore(i)} />
+                                                    <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
+                                                </div>
+                                            )
+                                        })
+                                    :
+                                        filtredPokemons.filter( (o:IPokemon) => o.shinyStatus == 'uncaught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                            return(
+                                                <div key={o.id}>
+                                                    <Waypoint onEnter={() => loadMore(i)} />
+                                                    <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
+                                                </div>
+                                            )
+                                        })
+
                         }
                         <Footer />
                     </motion.main>

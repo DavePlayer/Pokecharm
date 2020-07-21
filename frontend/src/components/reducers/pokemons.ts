@@ -2,7 +2,8 @@
 export interface IPokemon {
     id: number,
     name: string,
-    status: string,
+    normalStatus: string,
+    shinyStatus: string,
     imgUrl: string,
     details: Object
 }

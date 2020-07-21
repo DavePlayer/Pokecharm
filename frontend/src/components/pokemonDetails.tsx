@@ -1,9 +1,13 @@
 import * as React from 'react'
-import Axios from 'axios'
+import axios from 'axios'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Radar } from 'react-chartjs-2'
+import { FilterState } from './reducers/filters'
+import { useSelector } from 'react-redux'
+import { combinedReducers } from './reducers/combined'
+import { getGameNameById } from '../getGameNameById'
 
 const mainVariant = {
     initial:{x: '-100vw'},
@@ -21,11 +25,15 @@ export const PokemonDetails:React.FC = () => {
     const [dex, setDex]:any = useState()
     const [chart, setChart]:any = useState()
     const [fetched, setfetched] = useState(false)
+    const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
+    const user = useSelector( (combined:combinedReducers) => combined.user)
+    const [normalStatus, setNormalStatus] = useState('uncaught')
+    const [shinyStatus, setShinyStatus] = useState('uncaught')
     useEffect(() => {
-        Axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
         .then( o => {
             setData(o.data)
-                console.log('stat ', o.data.stats[0].base_stat)
+            console.log('beggining: ', o.data)
                 setChart({
                     responsive: true,
                     maintainAspectRatio: false,
@@ -50,9 +58,24 @@ export const PokemonDetails:React.FC = () => {
                     ]
             
                 })
-            setfetched(true)
+                axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
+                .then( (oo:any) => {
+                    console.log(oo.data.data)
+                    const test4 = oo.data.data.filter( (o2:any) => {
+                        console.log(o2.pokemonName, o.data.name)
+                        if(o2.pokemonName == o.data.name){
+                            return o2
+                        }
+                    })
+                    console.log(test4)
+                    if(test4.length > 0){
+                        setNormalStatus(test4[0].normalStatus)
+                        setShinyStatus(test4[0].shinyStatus)
+                    }
+                    setfetched(true)
+                })
         })
-        Axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
         .then((o:any) => {
             const something = o.data.flavor_text_entries.filter( (oo:any) => {
                 return (oo.language.name == 'en') ? oo.version.name : null
@@ -62,6 +85,28 @@ export const PokemonDetails:React.FC = () => {
             console.log(something)
         })
     }, [])
+
+    const hendleChangeStatus = (status: string, shiny: boolean) => {
+        let body = {
+            type: 'insertData',
+            gameVersion: getGameNameById(filters.gameVersion),
+            pokedex: filters.pokedex,
+            pokemonName: data.name,
+            status: status,
+            shiny: shiny,
+        }
+        axios.post('http://10.0.0.26:7200/data/insertCatchStatus', body, {headers: {'Authorization': user.token}})
+        .then( o => {
+            !shiny ?
+            setNormalStatus(status)
+            :
+            setShinyStatus(status)
+
+        }) .catch ( err => {
+            console.log(err, user.token)
+        })
+    }
+
     return (
         <div style={{overflow: 'hidden', position: 'relative', zIndex: 2}}>
         {
@@ -119,8 +164,18 @@ export const PokemonDetails:React.FC = () => {
                     </section>
                     <section className="pokemonStatus">
                         <h1>Change Status</h1>
-                        <button className="caught">Normal Caught</button>
-                        <button className="uncaught">Shiny Uncaught</button>
+                        <button 
+                            onClick={ () => hendleChangeStatus(normalStatus =='caught' ? 'uncaught' : 'caught', false)} 
+                            className={normalStatus}
+                        >
+                            Normal {normalStatus}
+                        </button>
+                        <button 
+                            onClick={ () => hendleChangeStatus(shinyStatus =='caught' ? 'uncaught' : 'caught', true)} 
+                            className={shinyStatus}
+                        >
+                            Shiny {shinyStatus}
+                        </button>
                     </section>
                     <section className="pokedexEntry">
                         <p>{dex.flavor_text}</p>

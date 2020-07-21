@@ -1,8 +1,13 @@
+ 
+ @font-face {
+    font-family: 'Open Sans';
+    src: url('./../fonts/OpenSans-Regular.ttf');
+}
  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans';
     color: white;
 }
 
@@ -16,11 +21,6 @@
 }
 ::-webkit-scrollbar-corner{
     display: none;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('./../fonts//OpenSans-Regular.ttf');
 }
 
 #root {

@@ -12,7 +12,14 @@ dataRouter.get('/getCatchStatus', verifyToken ,(req: any, res: express.Response)
     .catch(o => res.json(o))
 })
 dataRouter.post('/insertCatchStatus', verifyToken ,(req: any, res: express.Response) => {
-    DataBase.insertCatchStatus(req.query, req.id,)
+    console.log(req.body)
+    DataBase.insertCatchStatus({
+        type: 'insertData',
+        tableName: getTableName(req.body.gameVersion, req.body.pokedex),
+        pokemonName: req.body.pokemonName,
+        status: req.body.status,
+        shiny: req.body.shiny
+    }, req.id,)
     .then( o => res.json(o))
     .catch(o => res.json(o))
 })

@@ -37,7 +37,7 @@ export const PokemonBlock:React.FC<IProps> = (props) => {
                     :
                     <div className="id">#{props.id}</div>
                 }
-                <div className="name">{props.name}</div>
+                <div className="name">{props.name.slice(0, 1).toLocaleUpperCase()}{props.name.slice(1, props.name.length)}</div>
             </header>
             <figure><img src={props.imgUrl} alt="Bulbasaur"/></figure>
             <article>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 10, 2020 at 05:31 PM
+-- Generation Time: Jul 21, 2020 at 04:31 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -31,9 +31,16 @@ CREATE TABLE `alphasapphirehoenn` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `alphasapphirehoenn`
+--
+
+INSERT INTO `alphasapphirehoenn` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
+(1, 3, 'Bulbasaur', 'uncaught', 'uncaught');
 
 -- --------------------------------------------------------
 
@@ -45,8 +52,8 @@ CREATE TABLE `black2unova` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -59,8 +66,8 @@ CREATE TABLE `blackunova` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -73,9 +80,18 @@ CREATE TABLE `bluekanto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `bluekanto`
+--
+
+INSERT INTO `bluekanto` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
+(1, 3, 'charmander', 'caught', 'uncaught'),
+(2, 3, 'charizard', 'caught', 'uncaught'),
+(3, 3, 'butterfree', 'caught', 'uncaught');
 
 -- --------------------------------------------------------
 
@@ -87,8 +103,8 @@ CREATE TABLE `crystaljohto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -101,8 +117,8 @@ CREATE TABLE `diamondsinnoh` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -115,8 +131,8 @@ CREATE TABLE `emeraldhoenn` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -129,8 +145,8 @@ CREATE TABLE `fireredkanto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -143,8 +159,8 @@ CREATE TABLE `goldjohto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -157,8 +173,8 @@ CREATE TABLE `heartgoldjohto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -171,8 +187,8 @@ CREATE TABLE `leafgreenkanto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -185,8 +201,8 @@ CREATE TABLE `moonakala` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -199,8 +215,8 @@ CREATE TABLE `moonalola` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -213,8 +229,8 @@ CREATE TABLE `moonmelemele` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -227,8 +243,8 @@ CREATE TABLE `moonponi` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -241,8 +257,8 @@ CREATE TABLE `moonulaula` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -255,8 +271,8 @@ CREATE TABLE `national` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -269,8 +285,8 @@ CREATE TABLE `omegarubyhoenn` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -283,8 +299,8 @@ CREATE TABLE `pearlsinnoh` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -297,8 +313,8 @@ CREATE TABLE `platinumsinnoh` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -311,9 +327,17 @@ CREATE TABLE `redkanto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `redkanto`
+--
+
+INSERT INTO `redkanto` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
+(1, 3, 'bulbasaur', 'caught', 'uncaught'),
+(2, 3, 'venusaur', 'caught', 'uncaught');
 
 -- --------------------------------------------------------
 
@@ -325,8 +349,8 @@ CREATE TABLE `rubyhoenn` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -339,8 +363,8 @@ CREATE TABLE `sapphirehoenn` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -353,8 +377,8 @@ CREATE TABLE `silverjohto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -367,8 +391,8 @@ CREATE TABLE `soulsilverjohto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -381,8 +405,8 @@ CREATE TABLE `sunakala` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -395,8 +419,8 @@ CREATE TABLE `sunalola` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -409,8 +433,8 @@ CREATE TABLE `sunmelemele` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -423,8 +447,8 @@ CREATE TABLE `sunponi` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -437,8 +461,8 @@ CREATE TABLE `sunulaula` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -451,8 +475,8 @@ CREATE TABLE `ultramoonakala` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -465,8 +489,8 @@ CREATE TABLE `ultramoonalola` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -479,8 +503,8 @@ CREATE TABLE `ultramoonmelemele` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -493,8 +517,8 @@ CREATE TABLE `ultramoonponi` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -507,8 +531,8 @@ CREATE TABLE `ultramoonulaula` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -521,8 +545,8 @@ CREATE TABLE `ultrasunakala` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -535,8 +559,8 @@ CREATE TABLE `ultrasunalola` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -549,8 +573,8 @@ CREATE TABLE `ultrasunmelemele` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -563,8 +587,8 @@ CREATE TABLE `ultrasunponi` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -577,8 +601,8 @@ CREATE TABLE `ultrasunulaula` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -602,7 +626,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `phoneNumber`, `password`) VALUES
 (1, 'Marfex', 'maciej@przeniesiony.xd', '48222333444', 'SendNudes123'),
 (2, 'Mike Magic', 'bananella@ciota.xd', '48880049223', 'Bananella123456'),
-(3, 'Dave Player', 'daveplayer2001@gmail.com', '4534711258', 'Makarena123');
+(3, 'Dave Player', 'daveplayer2001@gmail.com', '4534711258', 'Makarena123'),
+(10, 'Lejken', 'lejken.kocha@marfex.xd', '48221755666', 'UmpaUmpa');
 
 -- --------------------------------------------------------
 
@@ -614,8 +639,8 @@ CREATE TABLE `white2unova` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -628,8 +653,8 @@ CREATE TABLE `whiteunova` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -642,8 +667,8 @@ CREATE TABLE `xkaloscentral` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -656,8 +681,8 @@ CREATE TABLE `xkaloscoastal` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -670,8 +695,8 @@ CREATE TABLE `xkalosmountain` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -684,8 +709,8 @@ CREATE TABLE `yellowkanto` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -698,8 +723,8 @@ CREATE TABLE `ykaloscentral` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -712,8 +737,8 @@ CREATE TABLE `ykaloscoastal` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -726,8 +751,8 @@ CREATE TABLE `ykalosmountain` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `pokemonName` varchar(40) COLLATE utf8_bin NOT NULL,
-  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL,
-  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL
+  `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
+  `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -1018,7 +1043,8 @@ ALTER TABLE `ultrasunulaula`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `white2unova`
@@ -1091,7 +1117,7 @@ ALTER TABLE `ykalosmountain`
 -- AUTO_INCREMENT for table `alphasapphirehoenn`
 --
 ALTER TABLE `alphasapphirehoenn`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `black2unova`
@@ -1109,7 +1135,7 @@ ALTER TABLE `blackunova`
 -- AUTO_INCREMENT for table `bluekanto`
 --
 ALTER TABLE `bluekanto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `crystaljohto`
@@ -1211,7 +1237,7 @@ ALTER TABLE `platinumsinnoh`
 -- AUTO_INCREMENT for table `redkanto`
 --
 ALTER TABLE `redkanto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rubyhoenn`
@@ -1331,7 +1357,7 @@ ALTER TABLE `ultrasunulaula`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `white2unova`
