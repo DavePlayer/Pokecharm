@@ -239,6 +239,7 @@
         background-color: rgba(255, 255, 255, 0.4);
         border: 2px solid white;
         border-radius: 1em;
+        font-size: 1.1em;
         header {
             display: flex;
             border-bottom: 2px solid white;
@@ -265,15 +266,23 @@
             border-top: 2px solid white;
             padding: 0.2em;
             text-align: center;
-            .red {
-                color: rgb(240, 100, 100);
-            }
-            .blue {
-                color: #00aeff;
-            }
+            border-bottom-left-radius: 1em;
+            border-bottom-right-radius: 1em;
+        }
+        .red {
+            background-color: #f06464;
+        }
+        .blue {
+            background-color: #7984F7;
         }
     }
     margin-bottom: 6em;
+}
+.errorH1{
+    width: 100%;
+    margin-top: 3em;
+    font-size: 2em;
+    text-align: center;
 }
 
 .loadingContainer {
@@ -419,12 +428,16 @@
             padding: 0.5em;
             border-radius: 1em;
             border: none;
+            flex-basis: 45%;
         }
         .caught {
             background-color: #00C2FF;
         }
         .uncaught {
             background-color: rgb(240, 100, 100);
+        }
+        .changingStatus{
+            background-color: #757575;
         }
     }
     .chart {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { motion, useSpring } from 'framer-motion'
 import { useHistory, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { combinedReducers } from './reducers/combined'
@@ -50,13 +50,20 @@ export const Login = (props:any) => {
             } else {
                 setError(`${o.data.status}: ${o.data.err}`)
             }
+        }) .catch (err => {
+            setError(err.message)
         })
     }
     React.useEffect(() => {
         if(props.location.state)
-            setError(props.location.state.error.err)
-            dispatch(loadUserData())
+            setError(user.userStatus)
+        dispatch(loadUserData())
     }, [])
+
+    React.useEffect(() => {
+        if(props.location.state)
+            setError(user.userStatus)
+    }, [user.userStatus])
 
     if (user.isUserLoged == true)
     return (

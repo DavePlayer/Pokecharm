@@ -13,10 +13,12 @@ export const loadUserData = () => {
                 } else return dispatch({type: 'LOAD_USER_DATA' ,payload: {isUserLoged: false}})
             })
             .catch( o => {
-                localStorage.removeItem('token')
+                //localStorage.removeItem('token')
+                dispatch({type: 'LOAD_USER_DATA' ,payload: {isUserLoged: false, userStatus: o.message}})
             })
         } else {
             console.log('no token saved')
+            dispatch({type: 'LOAD_USER_DATA' ,payload: {isUserLoged: false, userStatus: 'Token not provided. Login to get new one.'}})
         }
     }
 }

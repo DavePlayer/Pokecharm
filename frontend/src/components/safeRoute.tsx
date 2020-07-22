@@ -25,6 +25,6 @@ export const SafeRoute:React.FC<Props> = ({component, path}) => {
         return (<>{component}</>)
     else
         return (
-            <Redirect to={{ pathname: '/login', state: { from: path, error: {status: 'error', err: 'Not logged idiot'}}}} />   
+            <Redirect to={{ pathname: '/login', state: { from: path, error: {status: 'error', err: user.userStatus}}}} />   
         )
 }

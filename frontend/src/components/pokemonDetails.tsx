@@ -2,7 +2,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { Radar } from 'react-chartjs-2'
 import { FilterState } from './reducers/filters'
 import { useSelector } from 'react-redux'
@@ -11,20 +11,33 @@ import { getGameNameById } from '../getGameNameById'
 
 const mainVariant = {
     initial:{x: '-100vw'},
+    awaiting: {
+        opacity: 0
+    },
+    exitAwaiting: {
+        opacity: 1,
+        transition: {
+            duration: 0.7
+        }
+    },
     exit:{x: '100vw', transition: {
         duration: 0.7
     }},
-    animate:{x: 0, transition: {
+    animate:{x: 0, opacity: 1, transition: {
         duration: 0.7
     }}
 }
 
 export const PokemonDetails:React.FC = () => {
+    const history = useHistory()
     let { id } = useParams()
     const [data, setData]:any = useState()
+    const [loadinsStatus, setLoadinsStatus] = useState('Loading')
     const [dex, setDex]:any = useState()
     const [chart, setChart]:any = useState()
     const [fetched, setfetched] = useState(false)
+    const [changingNormalStatus, setChangingNormalStatus] = useState(false)
+    const [changingShinyStatus, setChangingShinyStatus] = useState(false)
     const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
     const user = useSelector( (combined:combinedReducers) => combined.user)
     const [normalStatus, setNormalStatus] = useState('uncaught')
@@ -73,6 +86,12 @@ export const PokemonDetails:React.FC = () => {
                         setShinyStatus(test4[0].shinyStatus)
                     }
                     setfetched(true)
+                }) .catch ( err => {
+                    console.log(err, user.token)
+                    setNormalStatus('database error')
+                    setShinyStatus('database error')
+                    setLoadinsStatus('database error, refresh website')
+                    setTimeout(() => history.push('/'), 3000)
                 })
         })
         axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
@@ -87,30 +106,37 @@ export const PokemonDetails:React.FC = () => {
     }, [])
 
     const hendleChangeStatus = (status: string, shiny: boolean) => {
-        let body = {
-            type: 'insertData',
-            gameVersion: getGameNameById(filters.gameVersion),
-            pokedex: filters.pokedex,
-            pokemonName: data.name,
-            status: status,
-            shiny: shiny,
+        if(changingNormalStatus == false && changingShinyStatus == false){
+            let body = {
+                type: 'insertData',
+                gameVersion: getGameNameById(filters.gameVersion),
+                pokedex: filters.pokedex,
+                pokemonName: data.name,
+                status: status,
+                shiny: shiny,
+            }
+            axios.post('http://10.0.0.26:7200/data/insertCatchStatus', body, {headers: {'Authorization': user.token}})
+            .then( o => {
+                if(!shiny){
+                    setNormalStatus(status)
+                    setChangingNormalStatus(true)
+                } else {
+                    setShinyStatus(status)
+                    setChangingShinyStatus(true)
+                }
+                setTimeout(() => {setChangingNormalStatus(false); setChangingShinyStatus(false)}, 1000)
+    
+            }) .catch ( err => {
+                setNormalStatus('database error')
+                setShinyStatus('database error')
+            })
         }
-        axios.post('http://10.0.0.26:7200/data/insertCatchStatus', body, {headers: {'Authorization': user.token}})
-        .then( o => {
-            !shiny ?
-            setNormalStatus(status)
-            :
-            setShinyStatus(status)
-
-        }) .catch ( err => {
-            console.log(err, user.token)
-        })
     }
 
     return (
         <div style={{overflow: 'hidden', position: 'relative', zIndex: 2}}>
         {
-            (fetched && dex) &&
+            (fetched && dex) ?
             (<motion.div  variants={mainVariant} initial='initial' animate='animate' exit='exit'>
                 <motion.main className='pokemonDatails'>
                     <section className="mainData">
@@ -166,15 +192,15 @@ export const PokemonDetails:React.FC = () => {
                         <h1>Change Status</h1>
                         <button 
                             onClick={ () => hendleChangeStatus(normalStatus =='caught' ? 'uncaught' : 'caught', false)} 
-                            className={normalStatus}
+                            className={changingNormalStatus ? 'changingStatus' : normalStatus}
                         >
-                            Normal {normalStatus}
+                            Normal: {changingNormalStatus ? 'Loading...' : normalStatus}
                         </button>
                         <button 
                             onClick={ () => hendleChangeStatus(shinyStatus =='caught' ? 'uncaught' : 'caught', true)} 
-                            className={shinyStatus}
+                            className={changingShinyStatus ? 'changingStatus' : shinyStatus}
                         >
-                            Shiny {shinyStatus}
+                            Shiny: {changingShinyStatus ? 'Loading...' : shinyStatus}
                         </button>
                     </section>
                     <section className="pokedexEntry">
@@ -182,6 +208,8 @@ export const PokemonDetails:React.FC = () => {
                     </section>
                 </motion.main>
             </motion.div>)
+            :
+                <motion.h1 className='errorH1' variants={mainVariant} initial='awaiting' animate='animate' exit='exitAwaiting'>{loadinsStatus}</motion.h1>
         }
         </div>
     )

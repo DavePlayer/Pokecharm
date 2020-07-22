@@ -31,12 +31,20 @@ class DataBaseClass {
     }
 
     connect = () => {
-        db.connect((err) => {
-            err ?
+        try{
+            db.connect((err) => {
+                if(err){
+                    console.log(`database error: ${err}`)
+                } else {
+                    console.log(`connected to database`)
+                }
+            })
+        } catch (err) {
             console.log(`database error: ${err}`)
-            :
-            console.log(`connected to database`)
-        })
+                setTimeout(() => {
+                    this.connect()
+                }, 1000)
+        }
     }
 
     validateUser = ( email:string, password?:string ) => new Promise((resolve, rej) => {

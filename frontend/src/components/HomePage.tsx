@@ -43,7 +43,7 @@ const loadingVariant = {
     }
 }
 
-const delayVariant = {
+let delayVariant = {
     initial: {
         opacity: 0,
         beforeChildren: true
@@ -64,8 +64,8 @@ export const HomePage = () => {
     const pokemons:Array<IPokemon> = useSelector( (o:combinedReducers) => o.pokemons)
     const didFetch:boolean = useSelector( (o:combinedReducers) => o.didFetch )
     const [isLoading, setIsLoading] = useState(true)
-    const [lastElement, setLastElement] = useState(40)
     const [filtredPokemons, setFiltredPokemons] = useState(pokemons)
+    const [lastElement, setLastElement] = useState(40)
     const dispatch = useDispatch()
     const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
     const user = useSelector( (combined:combinedReducers) => combined.user)
@@ -115,15 +115,18 @@ export const HomePage = () => {
                                     })
                                 })
                             }
-                        })                        
+                        }).catch(err => console.log('error: ', err))                       
                     })
                     .finally( () => {
                         setIsLoading(false)
                         dispatch(changeFetchStatus(true))
                         source.cancel()
                     })
-            }, 3000)
+            }, 1500)
         }
+        setTimeout(() => {
+            delayVariant.animate.transition.staggerChildren == 0.0
+        }, 5000);
     }, [])
 
     useEffect( () => {
@@ -139,45 +142,52 @@ export const HomePage = () => {
                 })
                 console.log(dexxx, filters.pokedex)
                 axios.get(dexxx[0].url)
-                .then( (o:any) => {
-                    axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
-                    .then( (o3:any) => {
-                        console.log('o', o)
-                        const test = pokemons.filter( (o2:IPokemon) => {
-                                const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
-                                if(test2.length > 0){
-                                    if(o3.data.data.length > 0){                                   
-                                        const test3 = o3.data.data.filter( (oo:any) => {
-                                            if(oo.pokemonName == o2.name)
-                                                return oo
-                                        })
-                                        if(test3.length > 0){
-                                            o2.normalStatus = test3[0].normalStatus
-                                            o2.shinyStatus = test3[0].shinyStatus
+                    .then( (o:any) => {
+                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
+                        .then( (o3:any) => {
+                            console.log('o', o)
+                            const test = pokemons.filter( (o2:IPokemon) => {
+                                    const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
+                                    if(test2.length > 0){
+                                        if(o3.data.data.length > 0){                                   
+                                            const test3 = o3.data.data.filter( (oo:any) => {
+                                                if(oo.pokemonName == o2.name)
+                                                    return oo
+                                            })
+                                            if(test3.length > 0){
+                                                o2.normalStatus = test3[0].normalStatus
+                                                o2.shinyStatus = test3[0].shinyStatus
+                                            } else {
+                                                o2.normalStatus = 'uncaught'
+                                                o2.shinyStatus = 'uncaught'
+                                            }
+                                            console.log(o2.normalStatus)
                                         } else {
                                             o2.normalStatus = 'uncaught'
                                             o2.shinyStatus = 'uncaught'
                                         }
-                                        console.log(o2.normalStatus)
-                                    } else {
-                                        o2.normalStatus = 'uncaught'
-                                        o2.shinyStatus = 'uncaught'
+                                        return o2
                                     }
-                                    return o2
                                 }
-                            }
-                        )
-                        setFiltredPokemons(test)
-                    })
-                }).finally(() => {
-                    source.cancel();
-                })
-            })
+                            )
+                            setFiltredPokemons(test)
+                            window.scrollTo(0, 0)
+                            setLastElement(40)
+                            console.log('ostatni element:' , lastElement)
+                        })
+                    }).finally(() => {
+                        source.cancel();
+                    }).catch(err => console.log(err))
+            }).catch(err => console.log('error: ', err))
     },[filters])
 
     const loadMore = (i:number) => {
-        if(i == lastElement-5){
+        console.log(lastElement)
+        if(i == lastElement-5 && lastElement < filtredPokemons.length){
             setLastElement(prev => prev += 20)
+        } else if(i == lastElement-5 && lastElement < filtredPokemons.length && lastElement != 40){
+            console.log('makapaka')
+            setLastElement(filtredPokemons.length)
         }
     }
     return (
@@ -201,7 +211,7 @@ export const HomePage = () => {
                             filters.statusFilter == 'all' ?
                                 filtredPokemons.slice(0,lastElement).map( (o:IPokemon, i:number) => {
                                     return(
-                                        <div key={o.id}>
+                                        <div key={i}>
                                             <Waypoint onEnter={() => loadMore(i)} />
                                             <PokemonBlock key={o.id} imgUrl={o.imgUrl} name={o.name} id={o.id} status={ filters.shineHelper ? o.shinyStatus: o.normalStatus} />
                                         </div>
