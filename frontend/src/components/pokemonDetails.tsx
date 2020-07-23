@@ -15,7 +15,7 @@ const mainVariant = {
         opacity: 0
     },
     exitAwaiting: {
-        opacity: 1,
+        opacity: 0,
         transition: {
             duration: 0.7
         }

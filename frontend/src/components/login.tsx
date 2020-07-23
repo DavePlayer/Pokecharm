@@ -40,19 +40,21 @@ export const Login = (props:any) => {
 
     const handleLogin = (e:any) => {
         e.preventDefault()
-        if(email.length == 0 || password.length == 0)
+        if(email.length == 0 || password.length == 0){
             setError('Fill data first baka!')
-        Axios.get('http://10.0.0.26:7200/auth/login', {params: {email, password}})
-        .then( o => {
-            if(o.data.status != 'error'){
-                setError('')
-                dispatch(setUser({isUserLoged: true, token:o.data.token}))
-            } else {
-                setError(`${o.data.status}: ${o.data.err}`)
-            }
-        }) .catch (err => {
-            setError(err.message)
-        })
+        } else {
+            Axios.get('http://10.0.0.26:7200/auth/login', {params: {email, password}})
+            .then( o => {
+                if(o.data.status != 'error'){
+                    setError('')
+                    dispatch(setUser({isUserLoged: true, token:o.data.token}))
+                } else {
+                    setError(`${o.data.status}: ${o.data.err}`)
+                }
+            }) .catch (err => {
+                setError(err.message)
+            })
+        }
     }
     React.useEffect(() => {
         if(props.location.state)

@@ -65,6 +65,7 @@ export const HomePage = () => {
     const didFetch:boolean = useSelector( (o:combinedReducers) => o.didFetch )
     const [isLoading, setIsLoading] = useState(true)
     const [filtredPokemons, setFiltredPokemons] = useState(pokemons)
+    const [displayPokemons, setDisplayPokemons] = useState(pokemons)
     const [lastElement, setLastElement] = useState(40)
     const dispatch = useDispatch()
     const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
@@ -100,6 +101,20 @@ export const HomePage = () => {
                                         details: o.pokemon_species.url
                                     }))
                                     setFiltredPokemons( prev => {
+                                        const test3 = data.data.data.filter( (oo:any) => {
+                                            if(oo.pokemonName == newPokemon.name)
+                                                return oo
+                                        })
+                                        if(test3.length > 0){
+                                            newPokemon.normalStatus = test3[0].normalStatus
+                                            newPokemon.shinyStatus = test3[0].shinyStatus
+                                        }
+                                        if(prev.length < 151)
+                                            return [...prev, newPokemon]
+                                        else
+                                            return prev
+                                    })
+                                    setDisplayPokemons( prev => {
                                         const test3 = data.data.data.filter( (oo:any) => {
                                             if(oo.pokemonName == newPokemon.name)
                                                 return oo
@@ -170,7 +185,18 @@ export const HomePage = () => {
                                     }
                                 }
                             )
-                            setFiltredPokemons(test)
+                            setFiltredPokemons(filters.name == '' ? test : test.filter( (o: IPokemon) => {
+                                if(o.name.includes(filters.name)){
+                                    console.log(o)
+                                    return o
+                                }
+                            }))
+                            setDisplayPokemons(filters.name == '' ? test : test.filter( (o: IPokemon) => {
+                                if(o.name.includes(filters.name)){
+                                    console.log(o)
+                                    return o
+                                }
+                            }))
                             window.scrollTo(0, 0)
                             setLastElement(40)
                             console.log('ostatni element:' , lastElement)
@@ -179,7 +205,19 @@ export const HomePage = () => {
                         source.cancel();
                     }).catch(err => console.log(err))
             }).catch(err => console.log('error: ', err))
-    },[filters])
+    },[filters.pokedex, filters.gameVersion, filters.shineHelper, filters.statusFilter])
+
+    useEffect(() => {
+        if(filters.name != '')
+            setDisplayPokemons(filtredPokemons.filter( (o: IPokemon) => {
+                if(o.name.includes(filters.name)){
+                    console.log(o)
+                    return o
+                } 
+            }))
+        else 
+            setDisplayPokemons(filtredPokemons)
+    }, [filters.name])
 
     const loadMore = (i:number) => {
         console.log(lastElement)
@@ -209,7 +247,7 @@ export const HomePage = () => {
                     <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" key={2}>
                         {
                             filters.statusFilter == 'all' ?
-                                filtredPokemons.slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                displayPokemons.slice(0,lastElement).map( (o:IPokemon, i:number) => {
                                     return(
                                         <div key={i}>
                                             <Waypoint onEnter={() => loadMore(i)} />
@@ -220,7 +258,7 @@ export const HomePage = () => {
                             :
                                 !filters.shineHelper ?
                                     filters.statusFilter == 'caught' ?
-                                        filtredPokemons.filter( (o:IPokemon) => o.normalStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                        displayPokemons.filter( (o:IPokemon) => o.normalStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
                                             return(
                                                 <div key={o.id}>
                                                     <Waypoint onEnter={() => loadMore(i)} />
@@ -239,7 +277,7 @@ export const HomePage = () => {
                                         })
                                 :
                                     filters.statusFilter == 'caught' ?
-                                        filtredPokemons.filter( (o:IPokemon) => o.shinyStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                        displayPokemons.filter( (o:IPokemon) => o.shinyStatus == 'caught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
                                             return(
                                                 <div key={o.id}>
                                                     <Waypoint onEnter={() => loadMore(i)} />
@@ -248,7 +286,7 @@ export const HomePage = () => {
                                             )
                                         })
                                     :
-                                        filtredPokemons.filter( (o:IPokemon) => o.shinyStatus == 'uncaught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
+                                        displayPokemons.filter( (o:IPokemon) => o.shinyStatus == 'uncaught' ? o : null).slice(0,lastElement).map( (o:IPokemon, i:number) => {
                                             return(
                                                 <div key={o.id}>
                                                     <Waypoint onEnter={() => loadMore(i)} />

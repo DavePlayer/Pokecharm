@@ -115,6 +115,29 @@
             }
         }
     }
+    .nameFilter {
+        flex-basis: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        input {
+            display: block;
+            font-size: 1em;
+            flex-basis: 10%;
+            padding: 1em;
+            border-radius: 2em;
+            background: #2f3640;
+            border: none;
+            outline: none;
+            transform: 1;
+            text-align: center;
+            transition: 0.5s;
+            &:focus {
+                flex-basis: 95%;
+            }
+        }
+    }
 }
 
 .glow {
