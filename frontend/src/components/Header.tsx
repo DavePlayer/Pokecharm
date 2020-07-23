@@ -11,9 +11,12 @@ import { combinedReducers } from './reducers/combined'
 import { setStatusFilter } from './actions/setStatusFilter'
 import { setShinyHelper } from './actions/setShinyHelper'
 import { changeNameFilter } from './actions/changenamefilter'
+import { logoutUser } from './actions/logoutUser'
+import { useHistory, useLocation } from 'react-router'
 
 interface Iprops {
-    path?: any
+    path?: any,
+    canLoadHeader?: boolean
 }
 
 
@@ -61,10 +64,13 @@ export const Header:React.FC<Iprops> = (props) => {
     const filters = useSelector( (combined:combinedReducers) => combined.filters )
     const [timeoutState, setTimeoutState] = useState<any>(0)
     const [nameFilter, setNameFilter] = useState<string>('')
+    const user = useSelector( (combined:combinedReducers) => combined.user)
+    const history = useHistory()
+    const location = useLocation()
 
     useEffect(() => {
         setIsLoading(true)
-        console.log(props.path.pathname)
+        console.log(location)
         Axios.get('https://pokeapi.co/api/v2/version/?limit=1000')
             .then( (o:AxiosResponse) => {
                 console.log(o.data)
@@ -138,7 +144,7 @@ export const Header:React.FC<Iprops> = (props) => {
 
     return (
         <motion.header initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}} className="mainHeader">
-            <section style={/[/]pokecharm*/.test(props.path.pathname) ? {flexBasis: '20%'}: {flexBasis: '30%'}} className="logoHolder">
+            <section style={/[/]pokecharm*/.test(props.path.pathname) ? {flexBasis: '20%'}: {flexBasis: '40%'}} className="logoHolder">
                 <Logo />
                 <AnimatePresence exitBeforeEnter>
                     {
@@ -150,9 +156,10 @@ export const Header:React.FC<Iprops> = (props) => {
                 </AnimatePresence>
             </section>
                 <AnimatePresence exitBeforeEnter>
-                    {props.path.pathname == '/pokecharm' &&
+                    {props.canLoadHeader &&
+                        // <motion.div variants={ulVariant} exit='exit' animate='animate' initial='initial'>
                         <>
-                            <motion.section className="filters" key={1} variants={ulVariant} animate='animate' initial='initial' exit='exit'>
+                            <section className="filters" key={1}>
                                 <ul>
                                     <li>Game Version
                                         <ol className='gameVersions'>
@@ -202,13 +209,29 @@ export const Header:React.FC<Iprops> = (props) => {
                                         </ol>
                                     </li>
                                 </ul>
-                            </motion.section>
-                            <motion.section className='nameFilter' key={2} variants={ulVariant} animate='animate' initial='initial' exit='exit'>
+                            </section>
+                            <section className='nameFilter' key={2}>
                                 <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
-                            </motion.section>
+                            </section>
+                            <section className="profileMenu">
+                                <span className="material-icons account">
+                                    account_circle
+                                </span>
+                                <p>{user.name}</p>
+                                <ul>
+                                    <li>Profile</li>
+                                    <li onClick={() => {history.push('/'); setTimeout(() => {dispatch(logoutUser())},1500)}} className='logout'>
+                                        <span className="material-icons">
+                                            power_settings_new
+                                        </span>
+                                        Logout
+                                    </li>
+                                </ul>
+                            </section>
                         </>
+                        /* </motion.div> */
                     }
-                </AnimatePresence>
+                    </AnimatePresence>
         </motion.header>
     )
 }

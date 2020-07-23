@@ -29,7 +29,7 @@ export const App = () => {
                     <Route render={
                         ({location}) => (
                             <>
-                                <Header path={location} />
+                                <Header path={location} canLoadHeader={location.pathname == '/pokecharm' && !location.pathname.includes('/pokecharm.pokemon') ? true : false} />
                                 <AnimatePresence exitBeforeEnter>
                                     <Switch location={location} key={location.key}>
                                     <Route exact path='/pokecharm/pokemon/:id' render={() => <SafeRoute path='/pokecharm/pokemon/:id' component={<PokemonDetails />} />} />

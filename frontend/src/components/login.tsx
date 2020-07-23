@@ -47,7 +47,8 @@ export const Login = (props:any) => {
             .then( o => {
                 if(o.data.status != 'error'){
                     setError('')
-                    dispatch(setUser({isUserLoged: true, token:o.data.token}))
+                    console.log(o.data)
+                    dispatch(setUser({isUserLoged: true, token:o.data.token, name: o.data.name}))
                 } else {
                     setError(`${o.data.status}: ${o.data.err}`)
                 }

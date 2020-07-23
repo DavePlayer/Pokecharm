@@ -185,12 +185,7 @@ export const HomePage = () => {
                                     }
                                 }
                             )
-                            setFiltredPokemons(filters.name == '' ? test : test.filter( (o: IPokemon) => {
-                                if(o.name.includes(filters.name)){
-                                    console.log(o)
-                                    return o
-                                }
-                            }))
+                            setFiltredPokemons(test)
                             setDisplayPokemons(filters.name == '' ? test : test.filter( (o: IPokemon) => {
                                 if(o.name.includes(filters.name)){
                                     console.log(o)

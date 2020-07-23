@@ -58,7 +58,7 @@ class DataBaseClass {
                     rej({status: 'error', err: "Wrong data provided"})
                 } else {
                     const token = jwt.sign({id: res[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
-                    resolve({status: 'user fetched', token})
+                    resolve({status: 'user fetched', token, name: res[0].name})
                 }
             }
         })
