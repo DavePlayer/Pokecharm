@@ -147,7 +147,7 @@ export const Header:React.FC<Iprops> = (props) => {
 
     return (
         <motion.header initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}} className="mainHeader">
-            <section style={/[/]pokecharm*/.test(props.path.pathname) ? {flexBasis: '20%'}: {flexBasis: '40%'}} className="logoHolder">
+            <section style={/[/]pokecharm*/.test(props.path.pathname) ? {flexBasis: '20%'}: {flexBasis: '33%'}} className="logoHolder">
                 <Logo />
                 <AnimatePresence exitBeforeEnter>
                     {

@@ -74,12 +74,16 @@ class DataBaseClass {
             const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?)`
             db.query(query, trueData, (err: any, res:mysql.OkPacket) => {
                 if(!err){
+                    console.log(`user added ${data.name}`)
                     const token = jwt.sign({id: res.insertId}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
                     resolve({status: "added new user", res, token})
                 } else {
+                    console.log('error')
                     rej({status: "Error mf", err})
                 }
             })
+        } else {
+            rej({status: 'error', err: 'unproper data sent'})
         }
     })
 
