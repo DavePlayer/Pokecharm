@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 export const Register = () => {
     const history = useHistory()
-    const [phoneNumber, setPhoneNumber] = useState('+48')
+    const [phoneNumber, setPhoneNumber] = useState('+48000000000')
 
     const handlePhone = (e:any) => {
         console.log(e.target.value)

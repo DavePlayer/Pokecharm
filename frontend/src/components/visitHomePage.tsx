@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { loadUserData } from './actions/loadUserData';
+import { useEffect } from 'react';
+import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState';
 
 const buttonVariant = {
     hover: {
@@ -35,7 +37,7 @@ const h1Variant = {
 
 export const VisitHomePage:React.FC = () => {
     const history = useHistory()
-    
+    const dispatch = useDispatch()
     return(
         <motion.main exit={{x: '-100vw'}} transition={{duration: 1, delay: 0.1}} className="visitMain">
             <section className="welcome">

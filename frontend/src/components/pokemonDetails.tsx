@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { Radar } from 'react-chartjs-2'
 import { FilterState } from './reducers/filters'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { combinedReducers } from './reducers/combined'
 import { getGameNameById } from '../getGameNameById'
+import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 
 const mainVariant = {
     initial:{x: '-100vw'},
@@ -42,7 +43,10 @@ export const PokemonDetails:React.FC = () => {
     const user = useSelector( (combined:combinedReducers) => combined.user)
     const [normalStatus, setNormalStatus] = useState('uncaught')
     const [shinyStatus, setShinyStatus] = useState('uncaught')
+    const dispatch = useDispatch()
+
     useEffect(() => {
+        dispatch(changeFiltersDisplayState())
         axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
         .then( o => {
             setData(o.data)

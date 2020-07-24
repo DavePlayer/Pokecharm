@@ -152,6 +152,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        cursor: pointer;
         &:hover ul {
             display: block;
         }
@@ -163,6 +164,7 @@
             padding-left: 0.5em;
         }
         ul {
+            cursor: pointer;
             display: none;
             position: absolute;
             border-radius: 1em;

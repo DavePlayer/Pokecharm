@@ -13,6 +13,9 @@ import { setShinyHelper } from './actions/setShinyHelper'
 import { changeNameFilter } from './actions/changenamefilter'
 import { logoutUser } from './actions/logoutUser'
 import { useHistory, useLocation } from 'react-router'
+import { filter } from 'lodash'
+import { getGameNameById } from '../getGameNameById'
+import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 
 interface Iprops {
     path?: any,
@@ -65,12 +68,12 @@ export const Header:React.FC<Iprops> = (props) => {
     const [timeoutState, setTimeoutState] = useState<any>(0)
     const [nameFilter, setNameFilter] = useState<string>('')
     const user = useSelector( (combined:combinedReducers) => combined.user)
+    const canShowFilters = useSelector( (combined:combinedReducers) => combined.canShowFilters)
     const history = useHistory()
     const location = useLocation()
 
     useEffect(() => {
         setIsLoading(true)
-        console.log(location)
         Axios.get('https://pokeapi.co/api/v2/version/?limit=1000')
             .then( (o:AxiosResponse) => {
                 console.log(o.data)
@@ -155,83 +158,81 @@ export const Header:React.FC<Iprops> = (props) => {
                     }
                 </AnimatePresence>
             </section>
-                <AnimatePresence exitBeforeEnter>
-                    {props.canLoadHeader &&
-                        // <motion.div variants={ulVariant} exit='exit' animate='animate' initial='initial'>
-                        <>
-                            <section className="filters" key={1}>
-                                <ul>
-                                    <li>Game Version
-                                        <ol className='gameVersions'>
-                                            {
-                                                !isLoading && gameVersions.length > 0 ? 
-                                                    gameVersions.map( (o, i:number) => {
-                                                        return(
-                                                            i == 0 ?
-                                                            <li className='selected' onClick={(e) => handleSelectGame(e, i)} key={o.name}>{o.name}</li>
-                                                            :
-                                                            <li onClick={(e) => handleSelectGame(e, i)} key={o.name}>{o.name}</li>
-                                                        )
-                                                    })
-                                                :
-                                                    <li>nie działa</li>
-                                            }
-                                        </ol>
-                                    </li>
-                                    <li>Status Filter
-                                        <ol className='statusFilter'>
-                                            <li className='selected' onClick={(e:any) => handleBooleanFilters(e, 'status', 'all')}>All</li>
-                                            <li onClick={(e:any) => handleBooleanFilters(e, 'status', 'caught')}>Caught</li>
-                                            <li onClick={(e:any) => handleBooleanFilters(e, 'status', 'uncaught')}>Uncaught</li>
-                                        </ol>
-                                    </li>
-                                    <li>Shiny Helper
-                                        <ol className='shinyHelper'>
-                                            <li onClick={(e:any) => handleBooleanFilters(e, 'shiny', true)}>On</li>
-                                            <li className='selected' onClick={(e:any) => handleBooleanFilters(e, 'shiny', false)}>Off</li>
-                                        </ol>
-                                    </li>
-                                    <li>Pokedex
-                                        <ol className='Dexes'>
-                                            {
-                                                !isLoading && pokedexes.length > 0 ? 
-                                                pokedexes.map( (o, i:number) => {
+                { canShowFilters &&
+                    // <motion.div variants={ulVariant} exit='exit' animate='animate' initial='initial'>
+                    <>
+                        <section className="filters" key={1}>
+                            <ul>
+                                <li>Game Version
+                                    <ol className='gameVersions'>
+                                        {
+                                            !isLoading && gameVersions.length > 0 ? 
+                                                gameVersions.map( (o, i:number) => {
                                                     return(
-                                                        i == 0 ?
-                                                        <li className='selected' onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
+                                                        o.name == getGameNameById(filters.gameVersion) ?
+                                                        <li className='selected' onClick={(e) => handleSelectGame(e, i)} key={o.name}>{o.name}</li>
                                                         :
-                                                        <li onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
+                                                        <li onClick={(e) => handleSelectGame(e, i)} key={o.name}>{o.name}</li>
                                                     )
                                                 })
                                             :
                                                 <li>nie działa</li>
-                                            }
-                                        </ol>
-                                    </li>
-                                </ul>
-                            </section>
-                            <section className='nameFilter' key={2}>
-                                <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
-                            </section>
-                            <section className="profileMenu">
-                                <span className="material-icons account">
-                                    account_circle
-                                </span>
-                                <p>{user.name}</p>
-                                <ul>
-                                    <li>Profile</li>
-                                    <li onClick={() => {history.push('/'); setTimeout(() => {dispatch(logoutUser())},1500)}} className='logout'>
-                                        <span className="material-icons">
-                                            power_settings_new
-                                        </span>
-                                        Logout
-                                    </li>
-                                </ul>
-                            </section>
-                        </>
-                        /* </motion.div> */
-                    }
-                    </AnimatePresence>
+                                        }
+                                    </ol>
+                                </li>
+                                <li>Status Filter
+                                    <ol className='statusFilter'>
+                                        <li className={filters.statusFilter == 'all' ? 'selected' : ''} onClick={(e:any) => handleBooleanFilters(e, 'status', 'all')}>All</li>
+                                        <li className={filters.statusFilter == 'caught' ? 'selected' : ''} onClick={(e:any) => handleBooleanFilters(e, 'status', 'caught')}>Caught</li>
+                                        <li className={filters.statusFilter == 'uncaught' ? 'selected' : ''} onClick={(e:any) => handleBooleanFilters(e, 'status', 'uncaught')}>Uncaught</li>
+                                    </ol>
+                                </li>
+                                <li>Shiny Helper
+                                    <ol className='shinyHelper'>
+                                        <li className={filters.shineHelper ? 'selected' : ''} onClick={(e:any) => handleBooleanFilters(e, 'shiny', true)}>On</li>
+                                        <li className={filters.shineHelper ? '' : 'selected'} onClick={(e:any) => handleBooleanFilters(e, 'shiny', false)}>Off</li>
+                                    </ol>
+                                </li>
+                                <li>Pokedex
+                                    <ol className='Dexes'>
+                                        {
+                                            !isLoading && pokedexes.length > 0 ? 
+                                            pokedexes.map( (o, i:number) => {
+                                                return(
+                                                    o.name == filters.pokedex ?
+                                                    <li className='selected' onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
+                                                    :
+                                                    <li onClick={(e) => handleSelectDex(e, o.name)} key={o.name}>{o.name}</li>
+                                                )
+                                            })
+                                        :
+                                            <li>nie działa</li>
+                                        }
+                                    </ol>
+                                </li>
+                            </ul>
+                        </section>
+                        <section className='nameFilter' key={2}>
+                            <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
+                        </section>
+                        <section className="profileMenu">
+                            <span className="material-icons account">
+                                account_circle
+                            </span>
+                            <p>{user.name}</p>
+                            <ul>
+                                <li>Profile</li>
+                                <li onClick={() => {dispatch(changeFiltersDisplayState(false)); history.push('/'); setTimeout(() => {dispatch(logoutUser())},1500)}} className='logout'>
+                                    <span className="material-icons">
+                                        power_settings_new
+                                    </span>
+                                    Logout
+                                </li>
+                            </ul>
+                        </section>
+                    </>
+                    /* </motion.div> */
+                }
         </motion.header>
     )
 }

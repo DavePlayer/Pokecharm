@@ -14,6 +14,7 @@ import { loadUserData } from './actions/loadUserData'
 import * as _ from 'lodash'
 import { FilterState } from './reducers/filters'
 import { getGameNameById } from '../getGameNameById'
+import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 
 const spinnerVariant = {
     animate: {
@@ -72,6 +73,7 @@ export const HomePage = () => {
     const user = useSelector( (combined:combinedReducers) => combined.user)
 
     useEffect(() => {
+        dispatch(changeFiltersDisplayState())
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         dispatch(loadUserData())
