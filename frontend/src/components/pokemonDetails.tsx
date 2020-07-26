@@ -183,7 +183,7 @@ export const PokemonDetails:React.FC = () => {
                                     ticks: {
                                         suggestedMin: 20,
                                         suggestedMax: 150,
-                                        display: false
+                                        display: true
                                     },
                                     gridLines: {
                                         color: 'rgba(255, 255, 255, 0.6)'

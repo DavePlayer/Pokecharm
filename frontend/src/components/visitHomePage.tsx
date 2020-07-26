@@ -24,7 +24,7 @@ const buttonVariant = {
 
 const h1Variant = {
     begginingPosition: {
-        x: '50vw'
+        x:  window.innerWidth >= 981 ? '50vw' : '100vw'
     },
     animateTo: {
         x: 0,
@@ -37,11 +37,10 @@ const h1Variant = {
 
 export const VisitHomePage:React.FC = () => {
     const history = useHistory()
-    const dispatch = useDispatch()
     return(
         <motion.main exit={{x: '-100vw'}} transition={{duration: 1, delay: 0.1}} className="visitMain">
             <section className="welcome">
-                <motion.h1 variants={h1Variant} initial={{x: '-50vw'}} animate="animateTo">Welcome to pokecharm</motion.h1>
+                <motion.h1 variants={h1Variant} initial={{x: window.innerWidth >= 981 ? '-50vw' : '-100vw'}} animate="animateTo">Welcome to pokecharm</motion.h1>
             </section>
             <section className="functional">
                 <motion.div variants={h1Variant} initial='begginingPosition' animate='animateTo'>

@@ -5,7 +5,7 @@ export const loadUserData = () => {
         const token = localStorage.getItem('token')
         const userName = localStorage.getItem('user')
         if(token != undefined){
-            Axios.get('http://127.0.0.1:7200/auth/test', {headers: {'authorization': token}} )
+            Axios.get('http://10.0.0.26:7200/auth/test', {headers: {'authorization': token}} )
             .then( (o:any) => {
                 console.log('token verify fetched')
                 if(o.data.status != 'error'){

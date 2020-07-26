@@ -1,8 +1,64 @@
- 
+@mixin phone{
+    @media only screen and (max-device-width: 768px){
+        @content;
+    }
+}
+@mixin tablet{
+    @media only screen and (min-device-width: 769px) and (max-device-width: 992px){
+        @content;
+    }
+}
+@mixin sml-scr{
+    @media only screen and (min-device-width: 993px)  and (max-device-width: 1200px){
+        @content;
+    }
+}
+@mixin larg-scr{
+    @media only screen and (min-device-width: 1201px){
+        @content;
+    }
+}
+
+@media screen and (device-aspect-ratio: 2/3) {
+    select, textarea, input[type="text"], input[type="password"],
+    input[type="datetime"], input[type="datetime-local"],
+    input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"],
+    input[type="url"]{ font-size: 16px; }
+}
+
+/* Fix Input Zoom on iPhone 5, 5C, 5S, iPod Touch 5g */
+@media screen and (device-aspect-ratio: 40/71) {
+    select, textarea, input[type="text"], input[type="password"],
+    input[type="datetime"], input[type="datetime-local"],
+    input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"],
+    input[type="url"]{ font-size: 16px; }
+}
+
+/* Fix Input Zoom on iPhone 6, iPhone 6s, iPhone 7  */
+@media screen and (device-aspect-ratio: 375/667) {
+    select, textarea, input[type="text"], input[type="password"],
+    input[type="datetime"], input[type="datetime-local"],
+    input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"], 
+    input[type="tel"], input[type="url"]{ font-size: 16px; }
+}
+
+/* Fix Input Zoom on iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus, iPhone 8, iPhone X, XS, XS Max  */
+@media screen and (device-aspect-ratio: 9/16) {
+    select, textarea, input[type="text"], input[type="password"],
+    input[type="datetime"], input[type="datetime-local"],
+    input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"],
+    input[type="tel"], input[type="url"]{ font-size: 16px; }
+}
+
  @font-face {
     font-family: 'Open Sans';
     src: url('./../fonts/OpenSans-Regular.ttf');
 }
+
  * {
     margin: 0;
     padding: 0;
@@ -28,6 +84,9 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    @include phone {
+        font-size: 2em;
+    }
 }
 .mainHeader{
     z-index: 3;
@@ -47,13 +106,15 @@
         figure {
             flex-basis: 25%;
             height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             img {
                 max-width: 100%;
                 max-height: 100%;
             }
         }
         h1 {
-            flex-basis: 70%;
             font-weight: 300;
             font-size: 2em;
             display: flex;
@@ -61,10 +122,6 @@
             padding-left: 1em;
         }
     }
-    // div {
-    //     flex-basis: 75%;
-    //     display: flex;
-    // }
     .filters {
         flex-basis: 40%;
         font-size: 1.2em;
@@ -129,6 +186,13 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        @include phone {
+            position: absolute;
+            top: 8.5em;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            width: 90vw;
+        }
         input {
             display: block;
             font-size: 1em;
@@ -193,6 +257,17 @@
             }
         }
     }
+    .burgerHolder{
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 20%;
+        height: 6em;
+        .hamburger {
+            font-size: 3em;
+        }
+    }
 }
 
 .glow {
@@ -204,6 +279,10 @@
     position: fixed;
     top: 40vh;
     left: 20vw;
+    @include phone {
+        top: 20vh;
+        left: -10vh;
+    }
     box-shadow: 0px 0px 89px 116px rgba(111,0,129,1);
 }
 
@@ -212,6 +291,10 @@
     z-index: 2;
     flex-grow: 1;
     display: flex;
+    @include phone {
+        flex-direction: column;
+        font-size: 1.2em;
+    }
     section{
         overflow: hidden;
     }
@@ -224,8 +307,12 @@
         flex-wrap: wrap;
         h1 {
             font-weight: 100;
-            flex-basis: 40%;
+            flex-basis: 80%;
             font-size: 3em;
+            text-align: center;
+            @include phone {
+                flex-basis: 100%;
+            }
         }
         div{
             flex-basis: 100%;
@@ -238,6 +325,9 @@
                 font-size: 1.4em;
                 flex-basis: 60%;
                 margin-top: 1em;
+                @include phone {
+                    flex-basis: 90%;
+                }
             }
             button{
                 border: 3px solid #fff;
@@ -260,6 +350,9 @@
     z-index: 2;
     width: 100%;
     overflow: hidden;
+    @include phone {
+        font-size: 1.2em;
+    }
     input, .buttonHolder > button{
         border-radius: 2em;
         cursor: pointer;
@@ -276,6 +369,9 @@
     }
     form {
         width: 40%;
+        @include phone {
+            width: 90%;
+        }
         border-radius: 3em;
         background-color: rgba(255, 255, 255, 0.4);
         padding: 2em;
@@ -299,6 +395,12 @@
         align-items: center;
         button {
             flex-basis: 30%;
+            @include phone {
+                flex-basis: 40%;
+            }
+        }
+        @include phone {
+            width: 90%;
         }
     }
 }
@@ -315,6 +417,10 @@
     padding: 2em;
     gap: 1em;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    @include phone {
+        grid-template-columns: 1fr;
+        margin-top: 3em;
+    }
     grid-template-rows: auto;
     .PokeBlock {
         background-color: rgba(255, 255, 255, 0.4);
@@ -324,6 +430,9 @@
         header {
             display: flex;
             border-bottom: 2px solid white;
+            @include phone {
+                font-size: 1.3em;
+            }
             .id {
                 flex-basis: 20%;
                 text-align: center;
@@ -349,6 +458,9 @@
             text-align: center;
             border-bottom-left-radius: 1em;
             border-bottom-right-radius: 1em;
+            @include phone {
+                font-size: 1.3em;
+            }
         }
         .red {
             background-color: #f06464;
@@ -382,6 +494,9 @@
         border-top: 2em solid #00aeff;
         border-radius: 50%;
     }
+    @include phone {
+        margin-top: 5em;
+    }
 }
 
 .mainFooter {
@@ -401,11 +516,21 @@
     padding: 2em;
     display: flex;
     flex-wrap: wrap;
+    @include phone {
+        flex-direction: column;
+        & > * {
+            margin-bottom: 3em;
+        }
+    }
     .mainData {
         flex-basis: 50%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        @include phone {
+            order: 1;
+            flex-direction: column;
+        }
         figure {
             flex-basis: 35%;
             height: 100%;
@@ -423,16 +548,23 @@
             h1{
                 font-size: 3em;
             }
+            @include phone {
+                padding: 0;
+            }
             .types {
                 display: flex;
-                justify-content: flex-start;
+                justify-content: space-around;
                 align-items: center;
                 & > * {
                     flex-basis: 20%;
                     padding: 0.3em;
                     text-align: center;
                     border-radius: 1em;
-                    margin-left: 2em;
+                    padding-left: 1em;
+                    padding-right: 1em;
+                    @include phone {
+                        font-size: 1.2em;
+                    }
                 }
                 .grass {
                     background-color: #00D108;
@@ -497,6 +629,9 @@
         align-content: center;
         justify-content: space-evenly;
         flex-wrap: wrap;
+        @include phone {
+            order: 2;
+        }
         h1 {
             width: 100%;
             text-align: center;
@@ -522,12 +657,18 @@
         }
     }
     .chart {
-        flex-grow: 1;
+        flex-basis: 40%;
         height: 20em;
         display: flex;
         justify-content: center;
         align-items: center;
         margin-bottom: 1em;
+        @include phone {
+            order: 4;
+            height: 25em;
+            flex-basis: auto;
+            flex-grow: 1;
+        }
     }
     .pokedexEntry {
         flex-basis: 60%;
@@ -538,5 +679,9 @@
         font-size: 2em;
         text-align: inherit;
         white-space: pre-wrap;
+        @include phone {
+            order: 3;
+            padding: 0;
+        }
     }
 }

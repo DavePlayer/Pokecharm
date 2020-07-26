@@ -67,12 +67,15 @@ export const Header:React.FC<Iprops> = (props) => {
     const filters = useSelector( (combined:combinedReducers) => combined.filters )
     const [timeoutState, setTimeoutState] = useState<any>(0)
     const [nameFilter, setNameFilter] = useState<string>('')
+    const [screenSize, setScreenSize] = useState(window.innerWidth)
     const user = useSelector( (combined:combinedReducers) => combined.user)
     const canShowFilters = useSelector( (combined:combinedReducers) => combined.canShowFilters)
+    const didFetch = useSelector( (combined:combinedReducers) => combined.didFetch)
     const history = useHistory()
     const location = useLocation()
 
     useEffect(() => {
+        window.addEventListener("resize", () => {setScreenSize(window.innerWidth); console.log(window.innerWidth)});
         setIsLoading(true)
         Axios.get('https://pokeapi.co/api/v2/version/?limit=1000')
             .then( (o:AxiosResponse) => {
@@ -147,7 +150,7 @@ export const Header:React.FC<Iprops> = (props) => {
 
     return (
         <motion.header initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}} className="mainHeader">
-            <section style={/[/]pokecharm*/.test(props.path.pathname) ? {flexBasis: '20%'}: {flexBasis: '33%'}} className="logoHolder">
+            <section style={/[/]pokecharm*/.test(props.path.pathname) ? ( screenSize <= 981 ? {flexGrow: 1} : {flexBasis: '20%'} ) : ( screenSize <= 981 ? {flexGrow: 1} : {flexBasis: '34%'})} className="logoHolder">
                 <Logo />
                 <AnimatePresence exitBeforeEnter>
                     {
@@ -158,7 +161,7 @@ export const Header:React.FC<Iprops> = (props) => {
                     }
                 </AnimatePresence>
             </section>
-                { canShowFilters &&
+                { (canShowFilters && screenSize >= 981) ?
                     // <motion.div variants={ulVariant} exit='exit' animate='animate' initial='initial'>
                     <>
                         <section className="filters" key={1}>
@@ -231,7 +234,18 @@ export const Header:React.FC<Iprops> = (props) => {
                             </ul>
                         </section>
                     </>
-                    /* </motion.div> */
+                    :
+                        (canShowFilters && screenSize <= 981) && 
+                        <>
+                            <section className='burgerHolder'><span className="material-icons hamburger">menu</span></section>
+                            {
+                                didFetch &&
+                                <section className='nameFilter' key={2}>
+                                    <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
+                                </section>
+                            }
+                        </>
+                   /* </motion.div> */
                 }
         </motion.header>
     )

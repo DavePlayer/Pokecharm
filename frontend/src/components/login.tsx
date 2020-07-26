@@ -10,7 +10,7 @@ import { loadUserData } from './actions/loadUserData'
 
 export const formVariant = {
     initial: {
-        x: '50vw'
+        x: window.innerWidth >= 981 ? '50vw' : '100vw'
     },
     animate: {
         x: 0,
@@ -22,7 +22,7 @@ export const formVariant = {
         }
     },
     exit: {
-        x: '-70vw',
+        x: window.innerWidth >= 981 ? '-70vw' : '-120vw',
         transition: {
             delay: 0.1,
             duration: 0.7
