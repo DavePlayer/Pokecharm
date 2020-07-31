@@ -46,7 +46,7 @@ export const PokemonDetails:React.FC = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(changeFiltersDisplayState())
+        dispatch(changeFiltersDisplayState(false))
         axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
         .then( o => {
             setData(o.data)

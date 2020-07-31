@@ -16,6 +16,7 @@ import { useHistory, useLocation } from 'react-router'
 import { filter } from 'lodash'
 import { getGameNameById } from '../getGameNameById'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
+import { Borgar } from './borgar'
 
 interface Iprops {
     path?: any,
@@ -66,6 +67,7 @@ export const Header:React.FC<Iprops> = (props) => {
     const dispatch = useDispatch()
     const filters = useSelector( (combined:combinedReducers) => combined.filters )
     const [timeoutState, setTimeoutState] = useState<any>(0)
+    const [showBurger, setShowBurger] = useState<boolean>(false)
     const [nameFilter, setNameFilter] = useState<string>('')
     const [screenSize, setScreenSize] = useState(window.innerWidth)
     const user = useSelector( (combined:combinedReducers) => combined.user)
@@ -237,12 +239,16 @@ export const Header:React.FC<Iprops> = (props) => {
                     :
                         (canShowFilters && screenSize <= 981) && 
                         <>
-                            <section className='burgerHolder'><span className="material-icons hamburger">menu</span></section>
+                            <section className='burgerHolder' onClick={() => {setShowBurger(prev => !prev)}}><span className="material-icons hamburger">menu</span></section>
                             {
                                 didFetch &&
                                 <section className='nameFilter' key={2}>
                                     <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
                                 </section>
+                            }
+                            {
+                                showBurger &&
+                                <Borgar/>
                             }
                         </>
                    /* </motion.div> */

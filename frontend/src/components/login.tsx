@@ -7,6 +7,7 @@ import { useState } from 'react'
 import Axios from 'axios'
 import { setUser } from './actions/setUser'
 import { loadUserData } from './actions/loadUserData'
+import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 
 export const formVariant = {
     initial: {
@@ -61,6 +62,7 @@ export const Login = (props:any) => {
         if(props.location.state)
             setError(user.userStatus)
         dispatch(loadUserData())
+        dispatch(changeFiltersDisplayState(false))
     }, [])
 
     React.useEffect(() => {
@@ -79,7 +81,7 @@ export const Login = (props:any) => {
                 <input type="email" onChange={ e => setEmail(e.target.value)} placeholder='E-mail'/>
                 <input type="password" onChange={ e => setPassword(e.target.value)} placeholder='Password'/>
                 <p>Forgot mail or password? Reset <span className='blue'>Here</span></p>
-                <p>{error}</p>
+                <p className='error' >{error}</p>
             </motion.form>
             <motion.section variants={formVariant} exit='exit'  initial='initial' animate='animate' className='buttonHolder'>
                 <button onClick={() => history.push('/')}>Go back</button>

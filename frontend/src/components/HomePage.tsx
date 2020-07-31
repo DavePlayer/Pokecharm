@@ -73,7 +73,7 @@ export const HomePage = () => {
     const user = useSelector( (combined:combinedReducers) => combined.user)
 
     useEffect(() => {
-        dispatch(changeFiltersDisplayState())
+        dispatch(changeFiltersDisplayState(true))
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         dispatch(loadUserData())
