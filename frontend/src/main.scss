@@ -695,6 +695,13 @@
     top: 0;
     right: 0;
     background: rgba($color: rgb(88, 88, 88), $alpha: 0.5);
+    .return {
+        width: 20vw;
+        position: absolute;
+        height: 100vh;
+        left: 0;
+        right: 0;
+    }
     .borgar {
         width: 80vw;
         position: absolute;
@@ -803,6 +810,9 @@
                 text-align: center;
                 background-color: #540162;
                 border-bottom: 2px solid black;
+            }
+            .selected {
+                background-color: #3d0047;
             }
         }
     } 

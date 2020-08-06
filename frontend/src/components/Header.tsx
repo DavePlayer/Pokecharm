@@ -17,6 +17,7 @@ import { filter } from 'lodash'
 import { getGameNameById } from '../getGameNameById'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 import { Borgar } from './borgar'
+import e = require('express')
 
 interface Iprops {
     path?: any,
@@ -260,7 +261,16 @@ export const Header:React.FC<Iprops> = (props) => {
                                 }
                                 {
                                     showBurger &&
-                                        <Borgar key={1} handleOpeningBurger={() => handleOpeningBurger()} />
+                                        <Borgar 
+                                            gameVersions={gameVersions} 
+                                            key={1} 
+                                            handleSelectDex={(e:any, name:string) => handleSelectDex(e, name)} 
+                                            handleBooleanFilters={(e:any, filtertype:string, set:boolean|string) => handleBooleanFilters(e, filtertype, set)} 
+                                            handleSelectGame={(e:any, index:number) => handleSelectGame(e, index)} 
+                                            isLoading={isLoading}
+                                            pokedexes={pokedexes}
+                                            handleOpeningBurger={() => handleOpeningBurger()} 
+                                        />
                                 }
                             </AnimatePresence>
                         </>
