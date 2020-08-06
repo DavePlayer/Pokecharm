@@ -631,7 +631,7 @@
         flex-wrap: wrap;
         @include phone {
             order: 2;
-            width: 90vwborgar;
+            width: 90vw;
         }
         h1 {
             width: 100%;
@@ -690,13 +690,17 @@
 .borgarBackground {
     position: fixed;
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
+    font-size: 1.3em;
     top: 0;
     right: 0;
     background: rgba($color: rgb(88, 88, 88), $alpha: 0.5);
     .borgar {
         width: 80vw;
         position: absolute;
+        height: 100vh;
+        overflow-y: scroll;
+        padding-bottom: 2em;
         top: 0;
         right: 0;
         background-color: rgba(93, 0, 107, 1);
@@ -705,20 +709,42 @@
             padding: 1em;
             display: flex;
             background: linear-gradient(rgb(0, 0, 0) 0%, #5C006B 100%);
+            position: relative;
             figure {
-                flex-basis: 20%;
+                flex-basis: 25%;
+                height: 4.2em;
+                border: 8px solid white;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 img {
-                    width: 100%
+                    width: 90%
                 }
+                span {
+                    width: 90%;
+                    text-align: center;
+                    font-size: 3em;
+                }
+            }
+            .close {
+                position: absolute;
+                top: 0.5em;
+                right: 0.5em;
+                font-size: 1.5em;
             }
             .userInfo {
                 flex-grow: 1;
+                margin-left: 1em;
                 h1 {
                     width: 100%;
                 }
+                p{
+                    font-size: 0.8em;
+                }
                 .progressStatus {
                     width: 100%;
-                    height: 1.5em;
+                    height: 1.3em;
                     border-radius: 1em;
                     border: none;
                     overflow: hidden;
@@ -740,6 +766,29 @@
             width: 100%;
             display: flex;
             position: relative;
+            justify-content: center;
+            align-items: center;
+            padding: 1em;
+            p {
+                flex-grow: 1;
+                text-align: center;
+            }
+            figure {
+                border: 5px solid white;
+                border-radius: 100%;
+                flex-basis: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0.3em;
+                img {
+                    width: 100%;
+                    filter: invert(1);
+                }
+            }
+            .arrow {
+                font-size: 2.5em;
+            }
         }
         ul {
             width: 100%;
@@ -750,7 +799,10 @@
             flex-wrap: wrap;
             li {
                 flex-basis: 80%;
+                padding: 0.3em;
                 text-align: center;
+                background-color: #540162;
+                border-bottom: 2px solid black;
             }
         }
     } 

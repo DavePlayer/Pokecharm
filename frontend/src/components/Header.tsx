@@ -150,6 +150,17 @@ export const Header:React.FC<Iprops> = (props) => {
         }, 800))
     }
 
+    const handleOpeningBurger = () => {
+        setShowBurger(prev => {
+            console.log('dziala burger')
+            if(prev == true)
+                document.body.style.overflow="auto" 
+            else 
+                document.body.style.overflow="hidden" 
+            return !prev
+        })
+    }
+
     return (
         <motion.header initial={{y: '-50vh'}} animate={{y: 0}} transition={{duration: 0.6}} className="mainHeader">
             <section style={/[/]pokecharm*/.test(props.path.pathname) ? ( screenSize <= 981 ? {flexGrow: 1} : {flexBasis: '20%'} ) : ( screenSize <= 981 ? {flexGrow: 1} : {flexBasis: '34%'})} className="logoHolder">
@@ -239,18 +250,21 @@ export const Header:React.FC<Iprops> = (props) => {
                     :
                         (canShowFilters && screenSize <= 981) && 
                         <>
-                            <section className='burgerHolder' onClick={() => {setShowBurger(prev => !prev)}}><span className="material-icons hamburger">menu</span></section>
-                            {
-                                didFetch &&
-                                <section className='nameFilter' key={2}>
-                                    <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
-                                </section>
-                            }
-                            {
-                                showBurger &&
-                                <Borgar/>
-                            }
+                            <AnimatePresence>
+                                <section className='burgerHolder' onClick={() => handleOpeningBurger()}><span className="material-icons hamburger">menu</span></section>
+                                {
+                                    didFetch &&
+                                    <section className='nameFilter' key={2}>
+                                        <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
+                                    </section>
+                                }
+                                {
+                                    showBurger &&
+                                        <Borgar key={1} handleOpeningBurger={() => handleOpeningBurger()} />
+                                }
+                            </AnimatePresence>
                         </>
+                        
                    /* </motion.div> */
                 }
         </motion.header>

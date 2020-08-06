@@ -241,7 +241,7 @@ export const HomePage = () => {
                         <motion.div className='spinner' variants={spinnerVariant}></motion.div>
                     </motion.section>
                     :
-                    <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" key={2}>
+                    <motion.main animate='animate' exit='exit' initial='initial' variants={delayVariant} className="HomePage" id='HomePage' key={2}>
                         {
                             filters.statusFilter == 'all' ?
                                 displayPokemons.slice(0,lastElement).map( (o:IPokemon, i:number) => {
