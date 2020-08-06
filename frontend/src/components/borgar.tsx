@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { getGameNameById } from '../getGameNameById'
 import { combinedReducers } from './reducers/combined'
@@ -16,14 +16,67 @@ const borgarVariant = {
     animate: {
         transition: {
             duration: 0.5,
-            when: "beforeChildren",
-            staggerChildren: 0.1
+            staggerChildren: 0.1,
+            delayChildren: 0.2
         },
         x: 0
     },
     exit: {
-        duration: 0.5,
+        transition: {
+            delay: 0.5,
+            duration: 0.5,
+            staggerChildren: 0.1,
+            staggerDirection: -1
+        },
         x: '100vw'
+    }
+}
+const filterVariant = {
+    initial: {
+        scale: 0
+    },
+    animate: {
+        scale: 1,
+        transition: {
+            duration: 0.3,
+        }
+    },
+    exit: {
+        scale: 0,
+    }
+}
+const ulVariant = {
+    initial: {
+        height: 0
+    },
+    animate: {
+        height: 'auto',
+        transition: {
+            duration: 0.3,
+        }
+    },
+    exit: {
+        height: 0,
+        transition: {
+            duration: 0.3,
+        }
+    }
+}
+const gameVariant = {
+    initial: {
+        height: 0
+    },
+    animate: {
+        height: 'auto',
+        transition: {
+            duration: 1,
+        }
+    },
+    exit: {
+        height: 0,
+        transition: {
+            duration: 1,
+        }
     }
 }
 
@@ -66,70 +119,70 @@ export const Borgar:React.FC<IProps> = (props) => {
                     </div>
                 </section>
                 <h1 className='h1Filters'>Filters</h1>
-                <section onClick={() => setCanShowGameVersions(prev => !prev)} className="filtersTiles">
+                <motion.section key={1.11} variants={filterVariant} onClick={() => setCanShowGameVersions(prev => !prev)} className="filtersTiles">
                     <figure><img src={gamePadImg} alt="gamepad"/></figure>
                     <p>Game Version</p>
                     <span style={canShowGameVersions ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}} className="material-icons arrow">
                         keyboard_arrow_up
                     </span>
-                </section>
-                {
-                    canShowGameVersions && 
-                    <ul>
+                </motion.section>
                         {
-                            !isLoading && gameVersions.length > 0 ?
-                                gameVersions.map( (o, i:number) => {
-                                    return(
-                                        o.name == getGameNameById(filters.gameVersion) ?
-                                        <li className='selected' onClick={(e) => {handleSelectGame(e, i); setCanShowGameVersions(false)}} key={o.name}>{o.name}</li>
-                                        :
-                                        <li onClick={(e) => {handleSelectGame(e, i); setCanShowGameVersions(false)}} key={o.name}>{o.name}</li>
-                                    )
-                                })
-                            :
-                                <li>nie działa</li>
+                            canShowGameVersions && 
+                            <motion.ul key={1.1} exit='exit' variants={gameVariant}>
+                                {
+                                    !isLoading && gameVersions.length > 0 ?
+                                        gameVersions.map( (o, i:number) => {
+                                            return(
+                                                o.name == getGameNameById(filters.gameVersion) ?
+                                                <li className='selected' onClick={(e) => {handleSelectGame(e, i); setCanShowGameVersions(false)}} key={o.name}>{o.name}</li>
+                                                :
+                                                <li onClick={(e) => {handleSelectGame(e, i); setCanShowGameVersions(false)}} key={o.name}>{o.name}</li>
+                                            )
+                                        })
+                                    :
+                                        <li>nie działa</li>
+                                }
+                            </motion.ul>   
                         }
-                    </ul>
-                }
-                <section onClick={() => setCanShowFilters(prev => !prev)} className="filtersTiles">
+                <motion.section key={1.12}  variants={filterVariant} onClick={() => setCanShowFilters(prev => !prev)} className="filtersTiles">
                     <figure><img src={filterImg} alt="filter"/></figure>
                     <p>Filters</p>
                     <span style={canShowFilters ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}} className="material-icons arrow">
                         keyboard_arrow_up
                     </span>
-                </section>
+                </motion.section>
                 {
                     canShowFilters &&
-                    <ul>
+                    <motion.ul key={1.2} variants={ulVariant}>
                         <li className={filters.statusFilter == 'all' ? 'selected' : ''} onClick={(e:any) => {handleBooleanFilters(e, 'status', 'all'); setCanShowFilters(false)}}>All</li>
                         <li className={filters.statusFilter == 'caught' ? 'selected' : ''} onClick={(e:any) => {handleBooleanFilters(e, 'status', 'caught'); setCanShowFilters(false)}}>Caught</li>
                         <li className={filters.statusFilter == 'uncaught' ? 'selected' : ''} onClick={(e:any) => {handleBooleanFilters(e, 'status', 'uncaught'); setCanShowFilters(false)}}>Uncaught</li>
-                    </ul>
+                    </motion.ul>
                 }
-                <section onClick={() => setCanShowShinyHelper(prev => !prev)} className="filtersTiles">
+                <motion.section key={1.13}  variants={filterVariant} onClick={() => setCanShowShinyHelper(prev => !prev)} className="filtersTiles">
                     <figure><img src={starImg} alt="gamepad"/></figure>
                     <p>Shiny Helper</p>
                     <span style={canShowShinyHelper ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}} className="material-icons arrow">
                         keyboard_arrow_up
                     </span>
-                </section>
+                </motion.section>
                 {
                     canShowShinyHelper &&
-                    <ul>
+                    <motion.ul key={1.3} variants={ulVariant}>
                         <li className={filters.shineHelper ? 'selected' : ''} onClick={(e:any) => {handleBooleanFilters(e, 'shiny', true); setCanShowShinyHelper(false)}}>On</li>
                         <li className={filters.shineHelper ? '' : 'selected'} onClick={(e:any) => {handleBooleanFilters(e, 'shiny', false); setCanShowShinyHelper(false)}}>Off</li>
-                    </ul>
+                    </motion.ul>
                 }
-                <section onClick={() => setCanShowPokedexes(prev => !prev)} className="filtersTiles">
+                <motion.section key={1.14}  variants={filterVariant} onClick={() => setCanShowPokedexes(prev => !prev)} className="filtersTiles">
                     <figure><img src={pokedexImg} alt="gamepad"/></figure>
                     <p>Pokedex</p>
                     <span style={canShowPokedexes ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}} className="material-icons arrow">
                         keyboard_arrow_up
                     </span>
-                </section>
+                </motion.section>
                 {
                     canShowPokedexes &&
-                    <ul>
+                    <motion.ul key={1.4} variants={ulVariant}>
                         {
                             !isLoading && pokedexes.length > 0 ? 
                             pokedexes.map( (o, i:number) => {
@@ -143,7 +196,7 @@ export const Borgar:React.FC<IProps> = (props) => {
                         :
                             <li>nie działa</li>
                         }
-                    </ul>
+                    </motion.ul>
                 }
             </div>
         </motion.article>

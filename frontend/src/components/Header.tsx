@@ -251,7 +251,7 @@ export const Header:React.FC<Iprops> = (props) => {
                     :
                         (canShowFilters && screenSize <= 981) && 
                         <>
-                            <AnimatePresence>
+
                                 <section className='burgerHolder' onClick={() => handleOpeningBurger()}><span className="material-icons hamburger">menu</span></section>
                                 {
                                     didFetch &&
@@ -259,20 +259,21 @@ export const Header:React.FC<Iprops> = (props) => {
                                         <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
                                     </section>
                                 }
-                                {
-                                    showBurger &&
-                                        <Borgar 
-                                            gameVersions={gameVersions} 
-                                            key={1} 
-                                            handleSelectDex={(e:any, name:string) => handleSelectDex(e, name)} 
-                                            handleBooleanFilters={(e:any, filtertype:string, set:boolean|string) => handleBooleanFilters(e, filtertype, set)} 
-                                            handleSelectGame={(e:any, index:number) => handleSelectGame(e, index)} 
-                                            isLoading={isLoading}
-                                            pokedexes={pokedexes}
-                                            handleOpeningBurger={() => handleOpeningBurger()} 
-                                        />
-                                }
-                            </AnimatePresence>
+                                <AnimatePresence>
+                                    {
+                                        showBurger &&
+                                            <Borgar 
+                                                gameVersions={gameVersions} 
+                                                key={1} 
+                                                handleSelectDex={(e:any, name:string) => handleSelectDex(e, name)} 
+                                                handleBooleanFilters={(e:any, filtertype:string, set:boolean|string) => handleBooleanFilters(e, filtertype, set)} 
+                                                handleSelectGame={(e:any, index:number) => handleSelectGame(e, index)} 
+                                                isLoading={isLoading}
+                                                pokedexes={pokedexes}
+                                                handleOpeningBurger={() => handleOpeningBurger()} 
+                                            />
+                                    }
+                                </AnimatePresence>
                         </>
                         
                    /* </motion.div> */

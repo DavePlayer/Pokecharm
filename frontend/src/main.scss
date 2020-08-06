@@ -804,6 +804,7 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            overflow: hidden;
             li {
                 flex-basis: 80%;
                 padding: 0.3em;
