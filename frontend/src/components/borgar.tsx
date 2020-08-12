@@ -15,18 +15,18 @@ const borgarVariant = {
     },
     animate: {
         transition: {
-            duration: 0.5,
+            duration: 0.3,
             staggerChildren: 0.1,
-            delayChildren: 0.2
+            delayChildren: 0.1
         },
         x: 0
     },
     exit: {
         transition: {
-            delay: 0.5,
-            duration: 0.5,
-            staggerChildren: 0.1,
-            staggerDirection: -1
+            //delay: 0.5,
+            duration: 0.3,
+            // staggerChildren: 0.1,
+            // staggerDirection: -1
         },
         x: '100vw'
     }

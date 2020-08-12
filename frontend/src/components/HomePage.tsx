@@ -15,6 +15,7 @@ import * as _ from 'lodash'
 import { FilterState } from './reducers/filters'
 import { getGameNameById } from '../getGameNameById'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
+import { useHistory } from 'react-router'
 
 const spinnerVariant = {
     animate: {
@@ -71,6 +72,7 @@ export const HomePage = () => {
     const dispatch = useDispatch()
     const filters: FilterState = useSelector( (combined:combinedReducers) => combined.filters)
     const user = useSelector( (combined:combinedReducers) => combined.user)
+    const history = useHistory()
 
     useEffect(() => {
         dispatch(changeFiltersDisplayState(true))
@@ -132,7 +134,10 @@ export const HomePage = () => {
                                     })
                                 })
                             }
-                        }).catch(err => console.log('error: ', err))                       
+                        }).catch(err => {
+                            console.log(err)
+                            history.push('/login')
+                        })                       
                     })
                     .finally( () => {
                         setIsLoading(false)
@@ -200,7 +205,10 @@ export const HomePage = () => {
                         })
                     }).finally(() => {
                         source.cancel();
-                    }).catch(err => console.log(err))
+                    }).catch(err => {
+                        console.log(err)
+                        history.push('/login')
+                    }) 
             }).catch(err => console.log('error: ', err))
     },[filters.pokedex, filters.gameVersion, filters.shineHelper, filters.statusFilter])
 
