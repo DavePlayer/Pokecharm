@@ -143,7 +143,7 @@ export const Header:React.FC<Iprops> = (props) => {
 
     const handleNameFiltering = (e:any) => {
         const value = e.target.value
-        setNameFilter(value)
+        setNameFilter(value.toLowerCase())
         if(timeoutState) clearTimeout(timeoutState);
         setTimeoutState(setTimeout(() => {
             console.log(value)
@@ -255,13 +255,13 @@ export const Header:React.FC<Iprops> = (props) => {
                         (canShowFilters && screenSize <= 981) && 
                         <>
 
-                                <section className='burgerHolder' onClick={() => handleOpeningBurger()}><span className="material-icons hamburger">menu</span></section>
                                 {
                                     didFetch &&
                                     <section className='nameFilter' key={2}>
-                                        <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" placeholder='Type to filter names'/>
+                                        <input onChange={(e) => handleNameFiltering(e)} value={nameFilter} type="text" className='nameFilterInput' placeholder='Type to filter names'/>
                                     </section>
                                 }
+                                <section className='burgerHolder' onClick={() => handleOpeningBurger()}><span className="material-icons hamburger">menu</span></section>
                                 <AnimatePresence>
                                     {
                                         showBurger &&
