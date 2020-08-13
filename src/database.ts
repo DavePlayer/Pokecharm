@@ -2,6 +2,7 @@ import mysql from 'mysql'
 import jwt from 'jsonwebtoken'
 import { rejects } from 'assert'
 import { dataRouter } from './authRoutes/dataMenagment'
+import bcrypt from 'bcryptjs'
 
 const db: mysql.Connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -47,14 +48,14 @@ class DataBaseClass {
         }
     }
 
-    validateUser = ( email:string, password?:string ) => new Promise((resolve, rej) => {
-        const query = `SELECT * FROM users WHERE email =? && password=?`
-        db.query(query, [email, password] , (err, res) => {
+    validateUser = ( email:string, password:string ) => new Promise((resolve, rej) => {
+        const query = `SELECT * FROM users WHERE email =?`
+        db.query(query, [email] , (err, res) => {
             if(err){
                 rej({status: 'error', err: "server can't connect to database. we are sory"})
             } else {
-                console.log(res)
-                if(res.length == 0) {
+                console.log(res, res[0].password, password, !bcrypt.compareSync(password, res[0].password))
+                if(res.length == 0 || !bcrypt.compareSync(password, res[0].password)) {
                     rej({status: 'error', err: "Wrong data provided"})
                 } else {
                     const token = jwt.sign({id: res[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
@@ -66,11 +67,15 @@ class DataBaseClass {
 
     registerUser = (data:IregisterData) => new Promise((resolve, rej) => {
         if(data.type == 'registerData'){
+            const salt = bcrypt.genSaltSync(10)
+            data.password = bcrypt.hashSync(data.password, salt)
             const arr = Object.entries(data)
             let trueData:any = []
             arr.map( (o, i) => {
                 i !== 0 && (trueData = [...trueData, o[1]])
             })
+
+
             const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?)`
             db.query(query, trueData, (err: any, res:mysql.OkPacket) => {
                 if(!err){
@@ -79,11 +84,11 @@ class DataBaseClass {
                     resolve({status: "added new user", res, token})
                 } else {
                     console.log('error')
-                    rej({status: "Error mf", err})
+                    rej({status: "Database Error", err})
                 }
             })
         } else {
-            rej({status: 'error', err: 'unproper data sent'})
+            rej({status: 'error', err: 'unvalid data sent'})
         }
     })
 

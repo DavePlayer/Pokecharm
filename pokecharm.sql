@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 21, 2020 at 04:31 PM
+-- Generation Time: Aug 13, 2020 at 04:40 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -91,7 +91,9 @@ CREATE TABLE `bluekanto` (
 INSERT INTO `bluekanto` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
 (1, 3, 'charmander', 'caught', 'uncaught'),
 (2, 3, 'charizard', 'caught', 'uncaught'),
-(3, 3, 'butterfree', 'caught', 'uncaught');
+(3, 3, 'butterfree', 'caught', 'caught'),
+(4, 3, 'charmeleon', 'caught', 'uncaught'),
+(5, 3, 'caterpie', 'uncaught', 'caught');
 
 -- --------------------------------------------------------
 
@@ -336,8 +338,20 @@ CREATE TABLE `redkanto` (
 --
 
 INSERT INTO `redkanto` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
-(1, 3, 'bulbasaur', 'caught', 'uncaught'),
-(2, 3, 'venusaur', 'caught', 'uncaught');
+(7, 3, 'butterfree', 'caught', 'caught'),
+(8, 3, 'bulbasaur', 'caught', 'caught'),
+(9, 3, 'ivysaur', 'caught', 'caught'),
+(10, 3, 'pidgeotto', 'caught', 'uncaught'),
+(11, 3, 'pidgeot', 'caught', 'uncaught'),
+(12, 3, 'rattata', 'caught', 'uncaught'),
+(13, 3, 'sandshrew', 'caught', 'uncaught'),
+(14, 3, 'weedle', 'caught', 'uncaught'),
+(16, 3, 'venusaur', 'uncaught', 'caught'),
+(18, 2, 'squirtle', 'caught', 'uncaught'),
+(19, 2, 'wartortle', 'caught', 'uncaught'),
+(20, 2, 'blastoise', 'caught', 'uncaught'),
+(25, 3, 'caterpie', 'caught', 'uncaught'),
+(26, 3, 'pidgey', 'caught', 'uncaught');
 
 -- --------------------------------------------------------
 
@@ -624,10 +638,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phoneNumber`, `password`) VALUES
-(1, 'Marfex', 'maciej@przeniesiony.xd', '48222333444', 'SendNudes123'),
 (2, 'Mike Magic', 'bananella@ciota.xd', '48880049223', 'Bananella123456'),
 (3, 'Dave Player', 'daveplayer2001@gmail.com', '4534711258', 'Makarena123'),
-(10, 'Lejken', 'lejken.kocha@marfex.xd', '48221755666', 'UmpaUmpa');
+(12, 'Marfex', 'marfexo@123.xd', '+48123456789', 'Maslo123'),
+(17, 'marfex2', 'marfexo2@xd.xd', '+123456789', 'dave'),
+(19, 'hashed User', 'xd@lak.test', '48123456789', '$2a$10$piGY5Qav2F0MuTP1G/s1VO3UPuosozubckqn3dXxUW65Ano9yP2gW');
 
 -- --------------------------------------------------------
 
@@ -670,6 +685,14 @@ CREATE TABLE `xkaloscentral` (
   `normalStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught',
   `shinyStatus` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT 'uncaught'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `xkaloscentral`
+--
+
+INSERT INTO `xkaloscentral` (`id`, `userID`, `pokemonName`, `normalStatus`, `shinyStatus`) VALUES
+(1, 3, 'squirtle', 'caught', 'uncaught'),
+(2, 3, 'wartortle', 'caught', 'uncaught');
 
 -- --------------------------------------------------------
 
@@ -1135,7 +1158,7 @@ ALTER TABLE `blackunova`
 -- AUTO_INCREMENT for table `bluekanto`
 --
 ALTER TABLE `bluekanto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `crystaljohto`
@@ -1237,7 +1260,7 @@ ALTER TABLE `platinumsinnoh`
 -- AUTO_INCREMENT for table `redkanto`
 --
 ALTER TABLE `redkanto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `rubyhoenn`
@@ -1357,7 +1380,7 @@ ALTER TABLE `ultrasunulaula`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `white2unova`
@@ -1375,7 +1398,7 @@ ALTER TABLE `whiteunova`
 -- AUTO_INCREMENT for table `xkaloscentral`
 --
 ALTER TABLE `xkaloscentral`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `xkaloscoastal`
@@ -1421,294 +1444,343 @@ ALTER TABLE `ykalosmountain`
 -- Constraints for table `alphasapphirehoenn`
 --
 ALTER TABLE `alphasapphirehoenn`
+  ADD CONSTRAINT `alphasapphirehoenn` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `alphasapphirehoenn_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `black2unova`
 --
 ALTER TABLE `black2unova`
+  ADD CONSTRAINT `black2unova` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `black2unova_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `blackunova`
 --
 ALTER TABLE `blackunova`
+  ADD CONSTRAINT `blackunova` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `blackunova_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `bluekanto`
 --
 ALTER TABLE `bluekanto`
+ADD CONSTRAINT `bluekanto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bluekanto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `crystaljohto`
 --
 ALTER TABLE `crystaljohto`
+ADD CONSTRAINT `crystaljohto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `crystaljohto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `diamondsinnoh`
 --
 ALTER TABLE `diamondsinnoh`
+ADD CONSTRAINT `diamondsinnoh` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `diamondsinnoh_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `emeraldhoenn`
 --
 ALTER TABLE `emeraldhoenn`
+ADD CONSTRAINT `emeraldhoenn` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `emeraldhoenn_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `fireredkanto`
 --
 ALTER TABLE `fireredkanto`
+ADD CONSTRAINT `fireredkanto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fireredkanto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `goldjohto`
 --
 ALTER TABLE `goldjohto`
+ADD CONSTRAINT `goldjohto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `goldjohto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `heartgoldjohto`
 --
 ALTER TABLE `heartgoldjohto`
+ADD CONSTRAINT `heartgoldjohto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `heartgoldjohto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `leafgreenkanto`
 --
 ALTER TABLE `leafgreenkanto`
+ADD CONSTRAINT `leafgreenkanto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `leafgreenkanto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `moonakala`
 --
 ALTER TABLE `moonakala`
+ADD CONSTRAINT `moonakala` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `moonakala_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `moonalola`
 --
 ALTER TABLE `moonalola`
+ADD CONSTRAINT `moonalola` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `moonalola_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `moonmelemele`
 --
 ALTER TABLE `moonmelemele`
+ADD CONSTRAINT `moonmelemele` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `moonmelemele_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `moonponi`
 --
 ALTER TABLE `moonponi`
+ADD CONSTRAINT `moonponi` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `moonponi_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `moonulaula`
 --
 ALTER TABLE `moonulaula`
+ADD CONSTRAINT `moonulaula` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `moonulaula_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `national`
 --
 ALTER TABLE `national`
+ADD CONSTRAINT `national` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `national_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `omegarubyhoenn`
 --
 ALTER TABLE `omegarubyhoenn`
+ADD CONSTRAINT `omegarubyhoenn` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `omegarubyhoenn_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `pearlsinnoh`
 --
 ALTER TABLE `pearlsinnoh`
+ADD CONSTRAINT `pearlsinnoh` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `pearlsinnoh_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `platinumsinnoh`
 --
 ALTER TABLE `platinumsinnoh`
+ADD CONSTRAINT `platinumsinnoh` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `platinumsinnoh_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `redkanto`
 --
 ALTER TABLE `redkanto`
+  ADD CONSTRAINT `redkanto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `redkanto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `rubyhoenn`
 --
 ALTER TABLE `rubyhoenn`
+ADD CONSTRAINT `rubyhoenn` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `rubyhoenn_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sapphirehoenn`
 --
 ALTER TABLE `sapphirehoenn`
+ADD CONSTRAINT `sapphirehoenn` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sapphirehoenn_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `silverjohto`
 --
 ALTER TABLE `silverjohto`
+ADD CONSTRAINT `silverjohto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `silverjohto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `soulsilverjohto`
 --
 ALTER TABLE `soulsilverjohto`
+ADD CONSTRAINT `soulsilverjohto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `soulsilverjohto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sunakala`
 --
 ALTER TABLE `sunakala`
+ADD CONSTRAINT `sunakala` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sunakala_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sunalola`
 --
 ALTER TABLE `sunalola`
+ADD CONSTRAINT `sunalola` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sunalola_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sunmelemele`
 --
 ALTER TABLE `sunmelemele`
+ADD CONSTRAINT `sunmelemele` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sunmelemele_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sunponi`
 --
 ALTER TABLE `sunponi`
+ADD CONSTRAINT `sunponi` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sunponi_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `sunulaula`
 --
 ALTER TABLE `sunulaula`
+ADD CONSTRAINT `sunulaula` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `sunulaula_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultramoonakala`
 --
 ALTER TABLE `ultramoonakala`
+ADD CONSTRAINT `ultramoonakala` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultramoonakala_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultramoonalola`
 --
 ALTER TABLE `ultramoonalola`
+ADD CONSTRAINT `ultramoonalola` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultramoonalola_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultramoonmelemele`
 --
 ALTER TABLE `ultramoonmelemele`
+ADD CONSTRAINT `ultramoonmelemele` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultramoonmelemele_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultramoonponi`
 --
 ALTER TABLE `ultramoonponi`
+ADD CONSTRAINT `ultramoonponi` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultramoonponi_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultramoonulaula`
 --
 ALTER TABLE `ultramoonulaula`
+ADD CONSTRAINT `ultramoonulaula` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultramoonulaula_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultrasunakala`
 --
 ALTER TABLE `ultrasunakala`
+ADD CONSTRAINT `ultrasunakala` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultrasunakala_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultrasunalola`
 --
 ALTER TABLE `ultrasunalola`
+ADD CONSTRAINT `ultrasunalola` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultrasunalola_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultrasunmelemele`
 --
 ALTER TABLE `ultrasunmelemele`
+ADD CONSTRAINT `ultrasunmelemele` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultrasunmelemele_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultrasunponi`
 --
 ALTER TABLE `ultrasunponi`
+ADD CONSTRAINT `ultrasunponi` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultrasunponi_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ultrasunulaula`
 --
 ALTER TABLE `ultrasunulaula`
+ADD CONSTRAINT `ultrasunulaula` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ultrasunulaula_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `white2unova`
 --
 ALTER TABLE `white2unova`
+ADD CONSTRAINT `white2unova` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `white2unova_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `whiteunova`
 --
 ALTER TABLE `whiteunova`
+ADD CONSTRAINT `whiteunova` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `whiteunova_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `xkaloscentral`
 --
 ALTER TABLE `xkaloscentral`
+ADD CONSTRAINT `xkaloscentral` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `xkaloscentral_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `xkaloscoastal`
 --
 ALTER TABLE `xkaloscoastal`
+ADD CONSTRAINT `xkaloscoastal` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `xkaloscoastal_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `xkalosmountain`
 --
 ALTER TABLE `xkalosmountain`
+ADD CONSTRAINT `xkalosmountain` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `xkalosmountain_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `yellowkanto`
 --
 ALTER TABLE `yellowkanto`
+ADD CONSTRAINT `yellowkanto` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `yellowkanto_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ykaloscentral`
 --
 ALTER TABLE `ykaloscentral`
+ADD CONSTRAINT `ykaloscentral` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ykaloscentral_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ykaloscoastal`
 --
 ALTER TABLE `ykaloscoastal`
+ADD CONSTRAINT `ykaloscoastal` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ykaloscoastal_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `ykalosmountain`
 --
 ALTER TABLE `ykalosmountain`
+ADD CONSTRAINT `ykalosmountain` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ykalosmountain_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
 COMMIT;
 
