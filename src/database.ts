@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import { rejects } from 'assert'
 import { dataRouter } from './authRoutes/dataMenagment'
 import bcrypt from 'bcryptjs'
+import mailer from 'nodemailer'
 
 const db: mysql.Connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -161,7 +162,32 @@ class DataBaseClass {
             if(!err){
                 if(data.length > 0){
                     console.log('user exist', data)
-                    // const token = jwt.sign({id: data[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    const token = jwt.sign({id: data[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    let message = {
+                        from: "dawidgrygiel26@gmail.com",
+                        to: `${email}`,
+                        subject: "Pokecharm Change Password",
+                        html: `
+                        <p>Here You have a link to Page in which you can change password:</p>
+                        <a href=\"http://10.0.0.26:8080/resetPassword/${token}\">Link</a>
+                        `
+                    }
+                    const transporter = mailer.createTransport({
+                        host: "smtp.gmail.com",
+                        // port: 465,
+                        // secure: false,
+                        auth: {
+                          user: "dawidgrygiel26@gmail.com",
+                          pass: process.env.EMAIL_PASSWORD
+                        }
+                    });
+                    transporter.sendMail(message, (error, info) => {
+                        if (error) {
+                        console.log(error);
+                        } else {
+                        console.log('Email sent: ' + info.response);
+                        }
+                    })
                     res({status:'OK', data: 'user exists'})
                 } else {
                     console.log('user dosen\'t exist')
