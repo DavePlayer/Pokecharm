@@ -80,7 +80,7 @@ export const Login = (props:any) => {
             <motion.form onSubmit={(e) => handleLogin(e)} variants={formVariant} exit='exit' initial='initial' animate='animate' action="" method='GET' id='loginFrom'>
                 <input type="email" onChange={ e => setEmail(e.target.value)} placeholder='E-mail'/>
                 <input type="password" onChange={ e => setPassword(e.target.value)} placeholder='Password'/>
-                <p>Forgot mail or password? Reset <span className='blue'>Here</span></p>
+                <p>Forgot mail or password? Reset <span className='blue' onClick={() => history.push('/forgotPassword')}>Here</span></p>
                 <p className='error' >{error}</p>
             </motion.form>
             <motion.section variants={formVariant} exit='exit'  initial='initial' animate='animate' className='buttonHolder'>

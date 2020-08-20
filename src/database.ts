@@ -76,14 +76,14 @@ class DataBaseClass {
             })
 
 
-            const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?)`
+            const query = `INSERT INTO users VALUES (null, ?, ?, ?, ?, null)`
             db.query(query, trueData, (err: any, res:mysql.OkPacket) => {
                 if(!err){
                     console.log(`user added ${data.name}`)
                     const token = jwt.sign({id: res.insertId}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
                     resolve({status: "added new user", res, token})
                 } else {
-                    console.log('error')
+                    console.log('error', err)
                     rej({status: "Database Error", err})
                 }
             })
@@ -154,6 +154,24 @@ class DataBaseClass {
         } else {
             rej({status: 'error', err: "wrong data type send"})
         }
+    })
+
+    sendResetPasswordUrl = (email: string) => new Promise<{status: string, err?: any, data?: string}>((res, rej) => {
+        db.query('SELECT id FROM users WHERE email = ?', [email], (err, data) => {
+            if(!err){
+                if(data.length > 0){
+                    console.log('user exist', data)
+                    // const token = jwt.sign({id: data[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    res({status:'OK', data: 'user exists'})
+                } else {
+                    console.log('user dosen\'t exist')
+                    rej({status: 'error', err: 'user dosen\'t exist'})
+                }
+            } else {
+                console.log(err)
+                rej({status: 'error', err})
+            }
+        })
     })
 }
 

@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { loadUserData } from './actions/loadUserData'
 import { SafeRoute } from './safeRoute'
 import { combinedReducers } from './reducers/combined'
+import { ForgotPassword } from './forgotPassword'
 var OpenSans = require('./../../fonts/OpenSans-Regular.ttf')
 
 
@@ -36,6 +37,7 @@ export const App = () => {
                                         <Route exact path='/' component={VisitHomePage} />
                                         <Route exact path='/login/' component={Login} />
                                         <Route exact path='/register/' component={Register} />
+                                        <Route exact path='/forgotPassword/' component={ForgotPassword} />
                                         <Route exact path='/pokecharm' render={() => <SafeRoute path='/pokecharm' component={<HomePage />} />} />   
                                         <Route path='*' exact render={() => <h1>error 404</h1>} />
                                     </Switch>

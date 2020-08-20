@@ -25,6 +25,15 @@ authRouter.get('/test', verifyToken, (req:any, res:express.Response) => {
     res.json({status: 'token validated properly', id: req.id})
 })
 
+authRouter.post('/forgotPassword', (req: express.Request, res:express.Response) => {
+    console.log(req.body.email)
+    DataBase.sendResetPasswordUrl(req.body.email)
+        .then (data => res.json(data))
+        .catch( err => {
+            res.json(err)
+        })
+})
+
 authRouter.post('/register' , (req:express.Request, res:express.Response) => {
     emailCheck(req.body.email)
     .then( (o:any) => {
