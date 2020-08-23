@@ -4,19 +4,37 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
+    // entry: [
+    // "webpack-dev-server/client?http://127.0.0.0:8080",
+    // "webpack/hot/only-dev-server",
+    // "./src"
+    // ],
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: "compiled.js"
+        filename: "compiled.js",
+        publicPath: '/',
     },
     devtool: "source-map",
 
     devServer: {
-        host: 'localhost',
+        host: '127.0.0.1',
         port: '8080',
-        historyApiFallback: true,
+        historyApiFallback: {
+            disableDotRule: true
+        },
         hot: true,
+        compress: true,
+        disableHostCheck: true,
         contentBase: path.resolve(__dirname, 'build'),
         open: true,
+        // proxy: {
+        //     '/*.*': { // Match all URL's with period/dot
+        //         target: 'http://localhost:8080/',  // send to webpack dev server
+        //         rewrite: function(req){
+        //         req.url='index.html';  // Send to react app
+        //         }
+        //     }
+        // }
     },
 
     resolve: {

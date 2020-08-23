@@ -162,7 +162,7 @@ class DataBaseClass {
             if(!err){
                 if(data.length > 0){
                     console.log('user exist', data)
-                    const token = jwt.sign({id: data[0].id}, `${process.env.TOKEN_SECRET}`, {expiresIn: '3600s'})
+                    const token = jwt.sign({id: data[0].id}, `${process.env.RESET_PASSWORD_TOKEN_SECRET}`, {expiresIn: '3600s'})
                     let message = {
                         from: "dawidgrygiel26@gmail.com",
                         to: `${email}`,
@@ -183,12 +183,20 @@ class DataBaseClass {
                     });
                     transporter.sendMail(message, (error, info) => {
                         if (error) {
-                        console.log(error);
+                            console.log(error);
                         } else {
-                        console.log('Email sent: ' + info.response);
+                            console.log('Email sent: ' + info.response);
+                            db.query('UPDATE users SET resetPasswordToken=? WHERE id=?', [token, data[0].id], (error2, ans) => {
+                                if(!error2){
+                                    console.log('token saved into database')
+                                    res({status:'OK', data: 'user exists and seved token to db'})
+                                } else {
+                                    console.log(error2)
+                                    rej({status: 'error', err: 'couldn\'t save token to database'})
+                                }
+                            })
                         }
                     })
-                    res({status:'OK', data: 'user exists'})
                 } else {
                     console.log('user dosen\'t exist')
                     rej({status: 'error', err: 'user dosen\'t exist'})
@@ -196,6 +204,22 @@ class DataBaseClass {
             } else {
                 console.log(err)
                 rej({status: 'error', err})
+            }
+        })
+    })
+
+    validateResetToken = (id: number, token: string) => new Promise<{status: string, err?: any, data?: string}>( (res, rej) => {
+        db.query('SELECT resetPasswordToken FROM users WHERE id=?', [id], (err, data:[{resetPasswordToken: string}]) => {
+            if(!err){
+                console.log(data, token)
+                if(token == data[0].resetPasswordToken){
+                    res({status: 'OK', data: 'password can be changed'})
+                } else {
+                    rej({status: 'error', err: 'tokens are diffrent'})
+                }
+            } else {
+                console.log(err)
+                rej({status: 'error', err: 'error during database connection'})
             }
         })
     })

@@ -2,6 +2,7 @@ import express, { query } from 'express'
 import DataBase from './../database'
 import { verifyToken } from '../middlewares/jwtVerify'
 import { type } from 'os'
+import { verifyResetToken } from '../middlewares/jwtResetVerify'
 const emailCheck = require('email-check')
 
 export const authRouter:express.Router = express.Router()
@@ -23,6 +24,12 @@ authRouter.get('/login' , (req:express.Request, res:express.Response) => {
 
 authRouter.get('/test', verifyToken, (req:any, res:express.Response) => {
     res.json({status: 'token validated properly', id: req.id})
+})
+
+authRouter.get('/checkResetToken', verifyResetToken, (req:any, res:express.Response) => {
+    DataBase.validateResetToken(req.id, req.token)
+    .then((data) => res.json(data))
+    .catch((data) => res.json(data))
 })
 
 authRouter.post('/forgotPassword', (req: express.Request, res:express.Response) => {
