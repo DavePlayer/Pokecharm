@@ -28,8 +28,14 @@ authRouter.get('/test', verifyToken, (req:any, res:express.Response) => {
 
 authRouter.get('/checkResetToken', verifyResetToken, (req:any, res:express.Response) => {
     DataBase.validateResetToken(req.id, req.token)
-    .then((data) => res.json(data))
-    .catch((data) => res.json(data))
+        .then((data) => res.json(data))
+        .catch((data) => res.json(data))
+    })
+
+authRouter.post('/resetPassword', verifyResetToken, (req:any, res:express.Response) => {
+    DataBase.changePassword(req.id, req.body.password)
+        .then((data) => res.json(data))
+        .catch((data) => res.json(data))
 })
 
 authRouter.post('/forgotPassword', (req: express.Request, res:express.Response) => {

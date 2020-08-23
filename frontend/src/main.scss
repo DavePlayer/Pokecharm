@@ -97,6 +97,7 @@ button:focus, input:focus {
     @include phone {
         font-size: 2em;
     }
+    font-size-adjust:0.45;
 }
 .mainHeader{
     z-index: 3;
@@ -143,7 +144,7 @@ button:focus, input:focus {
         }
     }
     .filters {
-        flex-basis: 40%;
+        flex-grow: 1;
         font-size: 1.2em;
         display: flex;
         justify-content: center;
@@ -261,7 +262,7 @@ button:focus, input:focus {
         }
     }
     .profileMenu{
-        flex-grow: 1;
+        flex-basis: 15%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -717,7 +718,7 @@ button:focus, input:focus {
         }
     }
     .pokemonStatus{
-        flex-basis: 40%;
+        flex-basis: 50%;
         display: flex;
         align-content: center;
         justify-content: space-evenly;
@@ -775,7 +776,7 @@ button:focus, input:focus {
         }
     }
     .pokedexEntry {
-        flex-basis: 60%;
+        flex-basis: 50%;
         display: flex;
         justify-content: center;
         align-items: center;

@@ -216,10 +216,23 @@ class DataBaseClass {
                     res({status: 'OK', data: 'password can be changed'})
                 } else {
                     rej({status: 'error', err: 'tokens are diffrent'})
+                    // db.query('UPDATE users SET resetPasswordToken=\'\' WHERE id=?', [id])
                 }
             } else {
                 console.log(err)
                 rej({status: 'error', err: 'error during database connection'})
+            }
+        })
+    })
+
+    changePassword = (id:number, password:string) => new Promise<{status: string, err?: any, data?: string}>( (res, rej) => {
+        const salt = bcrypt.genSaltSync(10)
+        password = bcrypt.hashSync(password, salt)
+        db.query('UPDATE users SET password=? WHERE id=?', [password, id], (err, ans) => {
+            if(!err){
+                res({status: 'ok', data: 'Changed Password'})
+            } else {
+                res({status: 'error', data: 'Error accourd during database connection'})
             }
         })
     })
