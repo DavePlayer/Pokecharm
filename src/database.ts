@@ -97,6 +97,7 @@ class DataBaseClass {
         const query = `SELECT * FROM ${tableName} WHERE userID = ?`
         db.query(query, [userId], (err:any, res:[]) => {
             if(!err){
+                console.log(res)
                 resolve({status: 'data fetched', data: res})
             } else {
                 rej({status: 'error', err})
@@ -107,7 +108,7 @@ class DataBaseClass {
     insertCatchStatus = (data: IInsertData, userId:number) => new Promise( (resolve, rej) => {
         if(data.type == 'insertData'){
             const checkifExist = new Promise<string>( (reso, rejj) => {
-                db.query(`SELECT * FROM ${data.tableName} WHERE pokemonName=?`, [data.pokemonName], (err, res) => {
+                db.query(`SELECT * FROM ${data.tableName} WHERE pokemonName=? AND userId=?`, [data.pokemonName, userId], (err, res) => {
                     if(!err){
                         if(res.length == 1){
                             if(
@@ -132,6 +133,7 @@ class DataBaseClass {
                             }
                         }              
                     } else {
+                        console.log(err)
                         rej({status: 'error', err})
                     }
                 })

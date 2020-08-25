@@ -8,6 +8,7 @@ import Axios from 'axios'
 import { setUser } from './actions/setUser'
 import { loadUserData } from './actions/loadUserData'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
+import { SettingVariabless } from '../settings'
 
 export const formVariant = {
     initial: {
@@ -44,7 +45,7 @@ export const Login = (props:any) => {
         if(email.length == 0 || password.length == 0){
             setError('Fill data first baka!')
         } else {
-            Axios.get('http://10.0.0.26:7200/auth/login', {params: {email, password}})
+            Axios.get(`${SettingVariabless.backendUrl}/auth/login`, {params: {email, password}})
             .then( o => {
                 if(o.data.status != 'error'){
                     setError('')

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { formVariant } from './login'
 import { useParams, useHistory } from 'react-router'
 import Axios from 'axios'
+import { SettingVariabless } from '../settings'
 
 export const ResetPassword = () => {
     const [newPassword, setNewPassword] = React.useState<String>('')
@@ -13,7 +14,7 @@ export const ResetPassword = () => {
     const history = useHistory()
 
     React.useEffect(() => {
-       Axios.get('http://10.0.0.26:7200/auth/checkResetToken', {headers: {authorization: params.token}})
+       Axios.get(`${SettingVariabless.backendUrl}/auth/checkResetToken`, {headers: {authorization: params.token}})
        .then( (data) => {
            console.log(data.data)
            if(data.data.status != 'error'){
@@ -31,7 +32,7 @@ export const ResetPassword = () => {
             seterror('Passwords are not exact')
         } else {
             if(canChangePassword === true) {
-                Axios.post('http://10.0.0.26:7200/auth/resetPassword', {password: newPassword}, {headers: {authorization: params.token}})
+                Axios.post(`${SettingVariabless.backendUrl}/auth/resetPassword`, {password: newPassword}, {headers: {authorization: params.token}})
                     .then( data => {
                         alert(data.data.data)
                         if(data.data.status != 'error') {

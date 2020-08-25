@@ -52,7 +52,7 @@ export const getTableName = (gameVersion:string, pokedex:string):string => {
             table += 'kalosmountain'
             break
         case 'updated-hoenn':
-            table += 'updatedhoenn'
+            table += 'hoenn'
             break
         case 'original-alola':
             table += 'alola'

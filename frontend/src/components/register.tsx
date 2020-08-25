@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { setUser } from './actions/setUser'
+import { SettingVariabless } from '../settings'
 
 export const Register = () => {
     const history = useHistory()
@@ -30,7 +31,7 @@ export const Register = () => {
         e.preventDefault()
         console.log(name, email, password)
         if(name.length > 0 && email.length && phoneNumber.length > 0 && password.length){
-            Axios.post('http://10.0.0.26:7200/auth/register', {
+            Axios.post(`${SettingVariabless.backendUrl}/auth/register`, {
                 type: 'registerData',
                 name,
                 email,

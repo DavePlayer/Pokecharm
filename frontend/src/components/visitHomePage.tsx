@@ -44,7 +44,7 @@ export const VisitHomePage:React.FC = () => {
             </section>
             <section className="functional">
                 <motion.div variants={h1Variant} initial='begginingPosition' animate='animateTo'>
-                    <p>Free web application which can help you menage caught pokemons (ex. to get shiny charm) including shinies</p>
+                    <p>Free web application which can help you menage caught pokemons (ex. to get shiny charm) including shinies.</p>
                     <motion.button onClick={() => history.push('/login')} variants={buttonVariant} whileHover='hover' >Login</motion.button>
                     <motion.button onClick={() => history.push('/register')} variants={buttonVariant} whileHover='hover'>Register</motion.button>
                 </motion.div>

@@ -16,6 +16,7 @@ import { FilterState } from './reducers/filters'
 import { getGameNameById } from '../getGameNameById'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
 import { useHistory } from 'react-router'
+import { SettingVariabless } from '../settings'
 
 const spinnerVariant = {
     animate: {
@@ -84,7 +85,7 @@ export const HomePage = () => {
             setTimeout(() => {
                 axios.get('https://pokeapi.co/api/v2/pokedex/1/', { cancelToken: source.token })
                     .then( (o:any) => {
-                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: 'red', pokedex: 'kanto'}, headers: {authorization: user.token}})
+                        axios.get(`${SettingVariabless.backendUrl}/data/getCatchStatus`, {params: {gameVersion: 'red', pokedex: 'kanto'}, headers: {authorization: user.token}})
                         .then( (data:any) => {
                             if(data.status = 'data fetched'){
                                 o.data.pokemon_entries.map((o:any) => {
@@ -165,9 +166,9 @@ export const HomePage = () => {
                 console.log(dexxx, filters.pokedex)
                 axios.get(dexxx[0].url)
                     .then( (o:any) => {
-                        axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
+                        axios.get(`${SettingVariabless.backendUrl}/data/getCatchStatus`, {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
                         .then( (o3:any) => {
-                            console.log('o', o)
+                            console.log('o3333333', o3)
                             const test = pokemons.filter( (o2:IPokemon) => {
                                     const test2 = o.data.pokemon_entries.filter( (cd:any) => _.includes(cd.pokemon_species, o2.name))
                                     if(test2.length > 0){

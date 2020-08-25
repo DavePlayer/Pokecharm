@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { combinedReducers } from './reducers/combined'
 import { getGameNameById } from '../getGameNameById'
 import { changeFiltersDisplayState } from './actions/changeFiltersDisplayState'
+import { SettingVariabless } from '../settings'
 
 const mainVariant = {
     initial:{x: '-100vw'},
@@ -75,7 +76,7 @@ export const PokemonDetails:React.FC = () => {
                     ]
             
                 })
-                axios.get('http://10.0.0.26:7200/data/getCatchStatus', {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
+                axios.get(`${SettingVariabless.backendUrl}/data/getCatchStatus`, {params: {gameVersion: getGameNameById(filters.gameVersion), pokedex: filters.pokedex}, headers: {authorization: user.token}})
                 .then( (oo:any) => {
                     console.log(oo.data.data)
                     const test4 = oo.data.data.filter( (o2:any) => {
@@ -119,8 +120,9 @@ export const PokemonDetails:React.FC = () => {
                 status: status,
                 shiny: shiny,
             }
-            axios.post('http://10.0.0.26:7200/data/insertCatchStatus', body, {headers: {'Authorization': user.token}})
+            axios.post(`${SettingVariabless.backendUrl}/data/insertCatchStatus`, body, {headers: {'Authorization': user.token}})
             .then( o => {
+                console.log("BIG MIHALX TEST PACZ TU KUŹWA::: ", o.data)
                 if(!shiny){
                     setNormalStatus(status)
                     setChangingNormalStatus(true)
@@ -131,6 +133,7 @@ export const PokemonDetails:React.FC = () => {
                 setTimeout(() => {setChangingNormalStatus(false); setChangingShinyStatus(false)}, 1000)
     
             }) .catch ( err => {
+                console.log(err)
                 setNormalStatus('database error')
                 setShinyStatus('database error')
             })
@@ -148,7 +151,7 @@ export const PokemonDetails:React.FC = () => {
                         <article>
                                 {
                                     id <= 9 ?
-                                    <h1>#00{id} {data.name}</h1>
+                                    <h1>#00{id} {data.name.slice(0, 1).toLocaleUpperCase()}{data.name.slice(1, data.name.length)}</h1>
                                     :
                                     id <= 99 ?
                                     <h1>#0{id} {data.name}</h1>
@@ -158,7 +161,7 @@ export const PokemonDetails:React.FC = () => {
                                 <div className='types'>
                                     {
                                         data.types.map( (o:any) => {
-                                            return <div key={o.type.name} className={o.type.name}>{o.type.name}</div>
+                                            return <div key={o.type.name} className={o.type.name}>{o.type.name.toUpperCase()}</div>
                                         })
                                     }
                                 </div>
@@ -183,7 +186,7 @@ export const PokemonDetails:React.FC = () => {
                                     ticks: {
                                         suggestedMin: 20,
                                         suggestedMax: 150,
-                                        display: true
+                                        display: false
                                     },
                                     gridLines: {
                                         color: 'rgba(255, 255, 255, 0.6)'

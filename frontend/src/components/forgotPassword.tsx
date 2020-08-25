@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { formVariant } from './login'
 import { useState } from 'react'
 import axios from 'axios'
+import { SettingVariabless } from '../settings'
 
 export const ForgotPassword = () => {
     const [email, setEmail] = useState('')
@@ -14,7 +15,7 @@ export const ForgotPassword = () => {
         console.log(email)
         axios({
             method: 'post',
-            url: 'http://10.0.0.26:7200/auth/forgotPassword',
+            url: `${SettingVariabless.backendUrl}/auth/forgotPassword`,
             data: {
               email
             }
