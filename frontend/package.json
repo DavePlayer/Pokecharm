@@ -20,7 +20,7 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux": "^3.6.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "css-loader": "^3.6.0",
     "framer-motion": "^1.11.1",
